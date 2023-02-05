@@ -1,12 +1,25 @@
 from models.tournoi import Tournoi
 import json,os,io
+from datetime import datetime
 
 
 class tournoiController:
     def __init__(self,tournois):
         self.tournois = tournois
-    def ajouter_tournoi(self,id_tournoi,nom,lieu,date_debut,date_fin,description):
-        Tournois = Tournoi(id_tournoi, nom, lieu, date_debut, date_fin, description)
+
+    """
+    Function to validate date with format jj/mm/aaaa
+    """
+    def validate(date_text):
+        try:
+            #strftime("%d/%m/%Y")
+            if date_text != datetime.strptime(date_text, "%d/%m/%Y").strftime("%d/%m/%Y"):
+                raise ValueError
+            return True
+        except ValueError:
+            return False
+    def ajouter_tournoi(self,nom,lieu,date_debut,date_fin,description):
+        Tournois = Tournoi( nom, lieu, date_debut, date_fin, description)
         data = []
         F = "data/tournaments/{}.json".format(nom)
         # check if file exist

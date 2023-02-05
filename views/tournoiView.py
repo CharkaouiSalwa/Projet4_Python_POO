@@ -3,16 +3,65 @@ from models.tournoi import Tournoi
 
 class tournoiView:
     def ajoutertournoi(self):
-        id_tournoi = input("Entrer l'id  : ")
-        nom = input("Entrer le nom : ")
-        lieu = input("Entrer le lieu : ")
-        date_debut = input("Entrer la date de debut : ")
-        date_fin = input("Entrer la date de fin : ")
-        description = input("entrer la remarque :")
-        nbr_tour = input("entrer le nombre de tour :")
-        tour_actuel = input("entrer le tour actuel :")
+        #nom input validation
+        nom = ""
+        while len(str(nom)) < 3:
+            try:
+                nom = str(input("Veuillez saisir le nom du tournoi : "))
+                if len(str(nom)) < 3:
+                    print("Le nom du tournoi doit contenir au minimum trois caractères.")
+            except ValueError:
+                print("Le nom du tournoi n'est pas valide.")
+                nom = ""
 
-        v = tournoiController.ajouter_tournoi(self,id_tournoi,nom,lieu,date_debut,date_fin,description,nbr_tour,tour_actuel)
-        #v = tournoiController.ajouter_tournoi(self,1,'test','test','test','test','test')
+        # lieu input validation
+        lieu = ""
+        while len(str(lieu)) < 3:
+            try:
+                lieu = str(input("Veuillez saisir le lieu du tournoi : "))
+                if len(str(lieu)) < 3:
+                    print("Le lieu du tournoi doit contenir au minimum trois caractères.")
+            except ValueError:
+                print("Le lieu du tournoi n'est pas valide.")
+                lieu = ""
+
+        # date_debut input validation
+        date_debut = ""
+        while len(str(date_debut)) != 10:
+            try:
+                date_debut = str(input("Veuillez saisir la date de debut du tournoi : "))
+                if len(str(date_debut)) != 10 and tournoiController.validate(date_debut) == False:
+                    print("La date de debut du tournoi doit avoir le format jj/mm/aaaa.")
+            except ValueError:
+                print("La date de debut du tournoi n'est pas valide.")
+                date_debut = ""
+
+        # date_fin input validation
+        date_fin = ""
+        while len(str(date_fin)) != 10 or tournoiController.validate(date_fin) == False or date_fin < date_debut:
+            try:
+                date_fin = str(input("Veuillez saisir la date de fin du tournoi : "))
+                if len(str(date_fin)) != 10 and tournoiController.validate(date_fin) == False:
+                    print("La date de fin du tournoi doit avoir le format jj/mm/aaaa.")
+                elif date_fin < date_debut:
+                    print('La date de fin du tournoi doit etre superieur ou égal à la date de debut.')
+            except ValueError:
+                print("La date de fin du tournoi n'est pas valide.")
+                date_fin = ""
+
+        # remarque input validation
+        remarque = ""
+        while len(str(remarque)) < 3:
+            try:
+                remarque = str(input("Veuillez saisir la remarque : "))
+                if len(str(remarque)) < 3:
+                    print("la remarque du tournoi doit contenir au minimum trois caractères.")
+            except ValueError:
+                print("la remarque du tournoi n'est pas valide.")
+                lieu = ""
+
+
+        #v = tournoiController.ajouter_tournoi(self,nom,lieu,date_debut,date_fin,remarque)
+        v = tournoiController.ajouter_tournoi(self,nom,lieu,date_debut,date_fin,remarque)
         print(v)
 

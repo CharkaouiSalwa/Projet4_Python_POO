@@ -4,11 +4,13 @@ from views.menuView import menu_options
 from views.menuView import menu_principal
 import json,os,io
 from views.tournoiView import tournoiView
-
-
+import uuid
+from datetime import date
 def main():
+
+
    v = tournoiView()
-   v.ajoutertournoi()
+   print(v.ajoutertournoi())
    #menu_principal()
 
 
