@@ -19,17 +19,7 @@ class Tour:
         self.date_heure_debut = True
         return True
 
-    """
-      avant de cloturer on demande si 
-      tous les matchs sont finis
-      et il n'existe plus de tuples
-    """
-    def close(self):
-        for i in self.match:
-            if type(i) != tuple:
-                return False
-            self.date_heure_fin = True
-            return True
+
 
 
 

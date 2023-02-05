@@ -1,7 +1,7 @@
 
 class Joueur:
     """
-
+    Création de la class Joueur avec l'initialisation des attributs
     """
     def __init__(self,id_national, nom, prenom, date_naissance):
         self.id_national = id_national

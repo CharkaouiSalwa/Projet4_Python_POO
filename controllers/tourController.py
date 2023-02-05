@@ -1,7 +1,7 @@
 import json,os,io
 PATH = "data/tour.json"
 
-class GestionTour:
+class tourController:
     def __init__(self,Tours):
         self.tours = Tours
 
@@ -43,14 +43,3 @@ class GestionTour:
             json.dump(data, jsonfile)
 
 
-    """
-      Fermer un tour; avant de cloturer on demande si 
-      tous les matchs sont finis
-      et il n'existe plus de tuples
-    """
-    def close(self):
-        for i in self.match:
-            if type(i) != tuple:
-                return False
-            self.date_heure_fin = True
-            return True
