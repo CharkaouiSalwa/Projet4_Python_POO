@@ -9,9 +9,7 @@ from datetime import date
 def main():
 
 
-   v = tournoiView()
-   print(v.ajoutertournoi())
-   #menu_principal()
+   menu_principal()
 
 
 
