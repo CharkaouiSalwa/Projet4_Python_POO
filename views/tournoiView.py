@@ -1,5 +1,6 @@
 from controllers.tournoiController import tournoiController
 from models.tournoi import Tournoi
+import json
 
 class tournoiView:
     def ajoutertournoi(self):
@@ -61,7 +62,29 @@ class tournoiView:
                 lieu = ""
 
 
-        #v = tournoiController.ajouter_tournoi(self,nom,lieu,date_debut,date_fin,remarque)
-        v = tournoiController.ajouter_tournoi(self,nom,lieu,date_debut,date_fin,remarque)
+        #v = tournoiController.add_tournoi(self,nom,lieu,date_debut,date_fin,remarque)
+        v = tournoiController.add_tournoi(self,nom,lieu,date_debut,date_fin,remarque)
         print(v)
+
+    """
+    afficher tous les tournois qui existe dans plusieurs fichier json
+    """
+
+
+
+
+
+
+
+"""
+afficher le nom et la date d'une tournoi
+"""
+
+
+
+
+
+
+
+
 

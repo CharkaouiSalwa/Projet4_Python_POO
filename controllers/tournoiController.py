@@ -1,11 +1,11 @@
 from models.tournoi import Tournoi
 import json,os,io
 from datetime import datetime
-
+PATH = "data/tournaments/"
 
 class tournoiController:
-    def __init__(self,tournois):
-        self.tournois = tournois
+    def __init__(self):
+        self
 
     """
     Function to validate date with format jj/mm/aaaa
@@ -18,10 +18,10 @@ class tournoiController:
             return True
         except ValueError:
             return False
-    def ajouter_tournoi(self,nom,lieu,date_debut,date_fin,description):
-        Tournois = Tournoi( nom, lieu, date_debut, date_fin, description)
+    def add_tournoi(self,nom,lieu,date_debut,date_fin,remarque):
+        Tournois = Tournoi( nom, lieu, date_debut, date_fin, remarque)
         data = []
-        F = "data/tournaments/{}.json".format(nom)
+        F = PATH+"{}.json".format(nom)
         # check if file exist
         if os.path.isfile(F):
             # read and write in file
@@ -42,48 +42,36 @@ class tournoiController:
         with open(F, "w") as jsonfile:
             json.dump(data, jsonfile)
         return data
-"""
- afficher la liste des tournois
-"""
 
-# def afficher_tournoi():
-#         fileObject = open("data/tournaments/tournoi.json", "r")
-#         jsonContent = fileObject.read()
-#         aList = json.loads(jsonContent)
-#         print(aList[0])
-#         fileObject.close()
-#
-#
-# """
-# afficher le nom et la date d'une tournoi
-# """
-# def afficher_nom_date_tournoi():
-#
-#     # Ouvrir le fichier JSON
-#     with open("data/tournaments/tournoi.json", "r") as file:
-#         tournois = json.load(file)
-#
-#     # Tournoi donné en paramètre
-#     id_tournoi = 1
-#
-#     # Rechercher le tournoi correspondant
-#     def recherche_tournoi(tournois, id_tournoi):
-#         for tournoi in tournois:
-#             if tournoi["id_tournoi"] == id_tournoi:
-#                 return tournoi
-#         return None
-#
-#     # Récupérer les informations pour le tournoi donné
-#     tournoi = recherche_tournoi(tournois, id_tournoi)
-#     if tournoi:
-#         nom_tournoi = tournoi["nom_tournoi"]
-#         date_debut_tournoi = tournoi["date_debut_tournoi"]
-#         print("Informations pour le tournoi '{}' :".format(id_tournoi))
-#         print("Nom :", nom_tournoi)
-#         print("Date :", date_debut_tournoi)
-#     else:
-#         print("Le tournoi '{}' n'a pas été trouvé.".format(id_tournoi))
-#
+    def get_tournois(self,dossier):
+        listtournoi = []
+        for fichier in os.listdir(dossier):
+            if fichier.endswith(".json"):
+                path = os.path.join(dossier, fichier)
+                with open(path) as f:
+                    data = json.load(f)
+                    listtournoi.append(data)
+
+        return listtournoi
+
+    def get_nom_date_tournoi(self, nom):
+        new_data = []
+        a = PATH + nom + '.json'
+        with open(a,'r')as f:
+            data = json.load(f)
+        new_data.append(data[0]['nom'])
+        new_data.append(data[0]['date_debut'])
+        new_data.append(data[0]['date_fin'])
+
+        return new_data
+
+
+
+
+
+
+
+
 
 
 
