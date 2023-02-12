@@ -18,6 +18,10 @@ class tournoiController:
             return True
         except Exception as e :
             return False
+
+    """
+    Ajouter un tournoi
+    """
     def add_tournoi(self,nom,lieu,date_debut,date_fin,remarque):
         try:
             if len(str(nom)) < 3:
@@ -48,16 +52,17 @@ class tournoiController:
             else:  # create json file
                 with io.open(os.path.join(F), 'w') as jsonfile:
                     jsonfile.write(json.dumps(data))
-
             new_data = Tournois.__dict__
             data.append(new_data)
             with open(F, "w") as jsonfile:
-                data[0]['joueurs'] = []
-                data[0]['tours'] = []
                 json.dump(data, jsonfile)
-            return data
+            return "Le tournoi a été ajouté avec succès"
         except Exception as e :
             return e
+
+    """
+    Retourner tous les tournois
+    """
 
     def get_tournois(self,dossier):
         try:
@@ -73,6 +78,9 @@ class tournoiController:
         except Exception as e :
             return e
 
+    """
+    Retourner le nom et la date du tournoi
+    """
     def get_nom_date_tournoi(self, nom):
         try :
             if len(str(nom)) < 3 :

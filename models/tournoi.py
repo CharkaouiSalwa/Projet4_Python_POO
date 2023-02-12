@@ -1,7 +1,7 @@
 import uuid
 from datetime import date
 class Tournoi:
-    def __init__(self,nom_tournoi, lieu,date_debut,date_fin ,remarque, nbr_tour = 4 ,tour_actuel = 0):
+    def __init__(self,nom_tournoi, lieu,date_debut,date_fin ,remarque, nbr_tour = 4 ,tour_actuel = 0,joueurs=[],tours=[]):
         # generate unique id
         id_tournoi = uuid.uuid4().int & (1 << 10) - 1
         # get dateNow
@@ -15,6 +15,8 @@ class Tournoi:
         self.remarque = remarque
         self.nbr_tour = nbr_tour
         self.tour_actuel = tour_actuel
+        self.joueurs= joueurs
+        self.tours=tours
 
 
     def __str__(self):

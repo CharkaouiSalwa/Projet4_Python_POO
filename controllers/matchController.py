@@ -1,3 +1,4 @@
+from models.match import Match
 class matchController:
-    def __init__(self,Matchs):
-        self.matchs = Matchs
+    def __init__(self):
+        self

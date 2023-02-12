@@ -1,45 +1,47 @@
 from models.tour import Tour
-from controllers.tournoiController import tournoiController
-import json,os
-from datetime import datetime
+import uuid
+import json,os,io
+from datetime import date,datetime
 PATH = "data/tournaments/"
-class Tourcontroller :
+class tourcontroller :
     def __init__(self):
         self
 
-    def add_tour(self,nom_tournoi,id_tour, nom , date_heure_debut , date_heure_fin):
+    """
+    Ajouter un tour dans une tournois
+    """
+    def add_tour(self,nom_tournoi, nom_tour):
         try:
-            if len(str(id_tour)) != 6:
-                return "L'Id tour est incorrect"
-            if len(str(nom)) < 3 :
+
+            if len(str(nom_tour)) < 3:
                 return "Le nom doit contenir au minimum trois caractères."
 
-            tours = Tour(nom_tournoi,id_tour, nom , date_heure_debut , date_heure_fin)
+            tours = Tour(nom_tour)
             data = []
             a = PATH + nom_tournoi + '.json'
             # check if file exist
             if os.path.isfile(a):
                 # read and write in file
-                with open(a, "r+") as jsonfile:
+                with open(a, "r") as jsonfile:
                     data = json.load(jsonfile)
-                    if not data[0]["tours"]:
+                new_data = tours.__dict__
+                data[0]["tours"].append(new_data)
+                with open(a, 'w') as jsonfile:
+                    json.dump(data, jsonfile)
 
-                        return 'tours existe'
-                    else:
-                        return "tours non existe"
-
+                return data
             else:
                 return "Le nom de tournoi n'existe pas"
-
-
-        except Exception as e :
+        except Exception as e:
             return e
+
+
 
     """
         retourner tous les tours d'un tournoi
         """
 
-    def get_tours(self, nom_tournoi):
+    def get_tours_by_tournoi(self, nom_tournoi):
         try:
             if len(str(nom_tournoi)) < 3:
                 return "Le nom du tournoi doit contenir au minimum trois caractères."
@@ -54,3 +56,40 @@ class Tourcontroller :
                 return "Le nom de tournoi n'existe pas"
         except Exception as e :
             return e
+
+        """
+        Fermer un tour 
+        """
+    def close_tour(self,nom_tournoi,nom_tour):
+        try:
+            if len(str(nom_tournoi)) < 3:
+                return "Le nom du tournoi doit contenir au minimum trois caractères."
+            if len(str(nom_tour)) < 3:
+                return "Le nom du tour doit contenir au minimum trois caractères."
+            new_data = []
+            data = []
+            a = PATH + nom_tournoi + '.json'
+            # check if file exist
+            if os.path.isfile(a):
+                with open(a, "r") as jsonfile:
+                    data = json.load(jsonfile)
+                for i in data[0]["tours"]:
+                    if i["nom_tour"] == nom_tour:
+                        if i["date_heure_fin"] == "":
+                            db = datetime.today()
+                            i["date_heure_fin"] = db.strftime("%d/%m/%Y %H:%M:%S")
+                        else :
+                            return 'Le tour est déjà fermé'
+                with open(a,'w') as jsonfile:
+                    json.dump(data, jsonfile)
+                    return "Le tour a été fermé avec succès"
+
+
+
+            else:
+                return "Le tournoi n'existe pas"
+
+
+        except Exception as e:
+            return e
+

@@ -9,6 +9,9 @@ class joueurController:
     def __init__(self):
         self
 
+    """
+    Ajouter un joueur
+    """
     def add_joueur(self,nom_tournoi,id_national,nom,prenom,date_naissance):
         try:
             if len(str(id_national)) != 6:
@@ -32,11 +35,11 @@ class joueurController:
                     data[0]["joueurs"].append(new_data)
                     json.dump(data, jsonfile)
 
-                return data
+                return "Le joueur a été ajouté avec succès"
             else:
                 return "Le nom de tournoi n'existe pas"
-        except ValueError:
-            return ValueError
+        except Exception as e :
+            return e
 
 
     """
@@ -55,8 +58,8 @@ class joueurController:
                 return (data[0]['joueurs'])
             else :
                 return "Le nom de tournoi n'existe pas"
-        except ValueError :
-            return ValueError
+        except Exception as e :
+            return e
 
     """
     retourner tous les joueurs de tous les tournois
@@ -70,7 +73,6 @@ class joueurController:
                     with open(path) as f:
                         data = json.load(f)
                         listtournoi.extend(data[0]["joueurs"])
-                        #json.dump(listtournoi, f)
             return listtournoi
         except Exception as e:
             return e
