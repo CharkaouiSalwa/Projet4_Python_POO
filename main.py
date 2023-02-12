@@ -1,23 +1,31 @@
-import json
-from models.tournoi import Tournoi
-from views.menuView import menu_options
-from views.menuView import menu_principal
 import json,os,io
-from views.tournoiView import tournoiView
-from controllers.tournoiController import tournoiController
 import uuid
-from datetime import date
+from datetime import datetime,date
 import pathlib
-
+from controllers.joueurController import joueurController
+from controllers.tournoiController import tournoiController
+from views.joueurView import JoueurView
+from models.joueur import Joueur
 #menu_principal()
 def main():
- # dossier = 'data/tournaments'
- t = tournoiController()
- #t.add_tournoi('test','lieu','dd','dd','remar')
+ dossier = 'data/tournaments'
+ #t = tournoiController()
  # print(t.afficher_tournois(dossier))
  #nom = 'saad'
- #t = tournoiController()
+ t = tournoiController()
+ #t.add_tournoi('test','lieu','01/01/2021','01/01/2022','remar')
  #print(t.get_nom_date_tournoi(nom))
+ nom_tournoi ='test'
+ #v = JoueurView()
+ #v = v.add_joueur(nom_tournoi)
+ #v = joueurController()
+ v = joueurController()
+ #print(v.get_joueurs_by_tournoi(nom_tournoi))
+ print(v.get_all_joueurs(dossier))
+ #print (v.get_all_joueurs(dossier))
+ #print (v.add_joueur("test","azertr","eza","zeze","02/07/1994"))
+ #print (v.add_joueur("test","salwas","salwd","test","02/07/1994"))
+ #print (v.add_joueur("test","saadsa","saad","test","02/07/1994"))
 
 
 if __name__ == "__main__":

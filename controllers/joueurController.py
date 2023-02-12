@@ -1,87 +1,82 @@
 from models.joueur import Joueur
 from controllers.tournoiController import tournoiController
+import uuid
 import json,os,io
-PATH = "data/tournaments/tournoi.json"
+PATH = "data/tournaments/"
 
-# class joueurController:
-#     def __init__(self,joueurs):
-#         self.joueurs = joueurs
-#
-#     def ajouter_joueur(self,id_national,nom,prenom,date_naissance):
-#         """
-#         remplir les informations des joueurs
-#         """
-#         #id_national = input("Entrer l'id national du joueur : ")
-#         #nom = input("Entrer le nom : ")
-#         #prenom = input("Entrer le prénom : ")
-#         #date_naissance = input("Entrer la date de naissance : ")
-#         #print("Le Joueur N° ", id_national, "son nom: ", nom, "son prénom: ", prenom, "sa date de naissance : ",date_naissance)
-#
-#         monJoueur = Joueur(id_national,nom,prenom,date_naissance)
-#
-#         data = []
-#
-#         # check if file exist
-#         if os.path.isfile(PATH):
-#             # read and write in file
-#             with open(PATH, "r+") as jsonfile:
-#                 try:
-#                     data = json.load(jsonfile)
-#                 except:
-#                     json.dump(data, jsonfile)
-#         else:  # create json file
-#             with io.open(os.path.join(PATH), 'w') as jsonfile:
-#                 jsonfile.write(json.dumps(data))
-#
-#         new_data = monJoueur
-#         data.append(new_data)
-#
-#         with open("data/data/tournaments/tournoi.json", "w") as jsonfile:
-#             json.dump(data, jsonfile)
-#
-#     """
-#        afficher tous des joueurs
-#        """
-# def afficher_joueur():
-#
-#      fileObject = open("data/tournaments/tournoi.json", "r")
-#      jsonContent = fileObject.read()
-#      aList = json.loads(jsonContent)
-#      print(aList[0]['joueurs'])
-#      fileObject.close()
-#
-#
-# """
-# afficher les joueurs par tournoi donnée en parametre
-# """
-#
-# def afficher_joueur_tournoi(nom_tournoi):
-#
-#     # Ouvrir le fichier JSON
-#     with open("data/tournaments/tournoi.json", "r") as file:
-#         tournois = json.load(file)
-#
-#     # Rechercher le tournoi correspondant
-#     def recherche_tournoi(tournois, nom):
-#         for tournoi in tournois:
-#             if tournoi["nom_tournoi"] == nom:
-#                 return tournoi
-#         return None
-#
-#     # Récupérer la liste de joueurs pour le tournoi donné
-#     tournoi = recherche_tournoi(tournois, nom_tournoi)
-#     if tournoi:
-#         joueurs = tournoi["joueurs"]
-#         print("Liste des joueurs pour le tournoi '{}':".format(nom_tournoi))
-#         for joueur in joueurs:
-#             print(joueur)
-#     else:
-#         print("Le tournoi '{}' n'a pas été trouvé.".format(nom_tournoi))
-#
-#
-#
-#
-#
-#
-#
-#
+
+class joueurController:
+    def __init__(self):
+        self
+
+    def add_joueur(self,nom_tournoi,id_national,nom,prenom,date_naissance):
+        try:
+            if len(str(id_national)) != 6:
+                return "L'Id national est incorrect"
+            if len(str(nom)) < 3 :
+                return "Le nom doit contenir au minimum trois caractères."
+            if len(str(prenom)) < 3 :
+                return "Le prenom doit contenir au minimum trois caractères."
+            if len(str(date_naissance)) != 10 and tournoiController.validate(date_naissance) == False:
+                return "La date de naissance du joueur doit avoir le format jj/mm/aaaa."
+            Joueurs = Joueur(id_national,nom, prenom,date_naissance)
+            data = []
+            a = PATH + nom_tournoi + '.json'
+            # check if file exist
+            if os.path.isfile(a):
+                # read and write in file
+                with open(a, "r") as jsonfile:
+                    data = json.load(jsonfile)
+                with open(a,'w') as jsonfile:
+                    new_data = Joueurs.__dict__
+                    data[0]["joueurs"].append(new_data)
+                    json.dump(data, jsonfile)
+
+                return data
+            else:
+                return "Le nom de tournoi n'existe pas"
+        except ValueError:
+            return ValueError
+
+
+    """
+    retourner tous les joueurs d'un tournoi
+    """
+    def get_joueurs_by_tournoi(self,nom_tournoi):
+        try :
+            if len(str(nom_tournoi)) < 3 :
+                return "Le nom du tournoi doit contenir au minimum trois caractères."
+            data = []
+            a = PATH + nom_tournoi + '.json'
+            # check if file exist
+            if os.path.isfile(a):
+                with open(a, "r") as jsonfile:
+                    data = json.load(jsonfile)
+                return (data[0]['joueurs'])
+            else :
+                return "Le nom de tournoi n'existe pas"
+        except ValueError :
+            return ValueError
+
+    """
+    retourner tous les joueurs de tous les tournois
+    """
+    def get_all_joueurs(self,dossier):
+        try :
+            listtournoi = []
+            for fichier in os.listdir(dossier):
+                if fichier.endswith(".json"):
+                    path = os.path.join(dossier, fichier)
+                    with open(path) as f:
+                        data = json.load(f)
+                        listtournoi.extend(data[0]["joueurs"])
+                        #json.dump(listtournoi, f)
+            return listtournoi
+        except Exception as e:
+            return e
+
+
+
+
+
+

@@ -1,45 +1,56 @@
-import json,os,io
-PATH = "data/tour.json"
+from models.tour import Tour
+from controllers.tournoiController import tournoiController
+import json,os
+from datetime import datetime
+PATH = "data/tournaments/"
+class Tourcontroller :
+    def __init__(self):
+        self
 
-# class tourController:
-#     def __init__(self,Tours):
-#         self.tours = Tours
-#
-#
-#     def ajouter_tour(self):
-#         """
-#         remplir les informations des tours
-#         """
-#         id_tour = input("Entrer l'id du tour : ")
-#         nom = input("Entrer le nom : ")
-#         date_heure_debut = input("Entrer la date et l'heure de debut : ")
-#         date_heure_fin = input("Entrer la date et l'heure de fin : ")
-#         print("Le tour N° ", id_tour, "son nom: ", nom, "la date et l'heure du debit: ", date_heure_debut, "la date et heure de fin : ",
-#               date_heure_fin)
-#
-#         Tour = { #retourner un objet de la classe tour
-#             "id": id_tour,
-#             "nom": nom,
-#             "date_heure_debut": date_heure_debut,
-#             "date_heure_fin": date_heure_fin}
-#         data = []
-#
-#         # check if file exist
-#         if os.path.isfile(PATH):
-#             # read and write in file
-#             with open(PATH, "r+") as jsonfile:
-#                 try:
-#                     data = json.load(jsonfile)
-#                 except:
-#                     json.dump(data, jsonfile)
-#         else:  # create json file
-#             with io.open(os.path.join(PATH), 'w') as jsonfile:
-#                 jsonfile.write(json.dumps(data))
-#
-#         new_data = Tour
-#         data.append(new_data)
-#
-#         with open("data/tour.json", "w") as jsonfile:
-#             json.dump(data, jsonfile)
-#
-#
+    def add_tour(self,nom_tournoi,id_tour, nom , date_heure_debut , date_heure_fin):
+        try:
+            if len(str(id_tour)) != 6:
+                return "L'Id tour est incorrect"
+            if len(str(nom)) < 3 :
+                return "Le nom doit contenir au minimum trois caractères."
+
+            tours = Tour(nom_tournoi,id_tour, nom , date_heure_debut , date_heure_fin)
+            data = []
+            a = PATH + nom_tournoi + '.json'
+            # check if file exist
+            if os.path.isfile(a):
+                # read and write in file
+                with open(a, "r+") as jsonfile:
+                    data = json.load(jsonfile)
+                    if not data[0]["tours"]:
+
+                        return 'tours existe'
+                    else:
+                        return "tours non existe"
+
+            else:
+                return "Le nom de tournoi n'existe pas"
+
+
+        except Exception as e :
+            return e
+
+    """
+        retourner tous les tours d'un tournoi
+        """
+
+    def get_tours(self, nom_tournoi):
+        try:
+            if len(str(nom_tournoi)) < 3:
+                return "Le nom du tournoi doit contenir au minimum trois caractères."
+            data = []
+            a = PATH + nom_tournoi + '.json'
+            # check if file exist
+            if os.path.isfile(a):
+                with open(a, "r") as jsonfile:
+                    data = json.load(jsonfile)
+                return (data[0]['tours'])
+            else:
+                return "Le nom de tournoi n'existe pas"
+        except Exception as e :
+            return e

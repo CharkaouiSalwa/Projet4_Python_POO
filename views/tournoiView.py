@@ -11,7 +11,7 @@ class tournoiView:
                 nom = str(input("Veuillez saisir le nom du tournoi : "))
                 if len(str(nom)) < 3:
                     print("Le nom du tournoi doit contenir au minimum trois caractères.")
-            except ValueError:
+            except Exception as e :
                 print("Le nom du tournoi n'est pas valide.")
                 nom = ""
 
@@ -22,7 +22,7 @@ class tournoiView:
                 lieu = str(input("Veuillez saisir le lieu du tournoi : "))
                 if len(str(lieu)) < 3:
                     print("Le lieu du tournoi doit contenir au minimum trois caractères.")
-            except ValueError:
+            except Exception as e :
                 print("Le lieu du tournoi n'est pas valide.")
                 lieu = ""
 
@@ -33,7 +33,7 @@ class tournoiView:
                 date_debut = str(input("Veuillez saisir la date de debut du tournoi : "))
                 if len(str(date_debut)) != 10 and tournoiController.validate(date_debut) == False:
                     print("La date de debut du tournoi doit avoir le format jj/mm/aaaa.")
-            except ValueError:
+            except Exception as e :
                 print("La date de debut du tournoi n'est pas valide.")
                 date_debut = ""
 
@@ -46,7 +46,7 @@ class tournoiView:
                     print("La date de fin du tournoi doit avoir le format jj/mm/aaaa.")
                 elif date_fin < date_debut:
                     print('La date de fin du tournoi doit etre superieur ou égal à la date de debut.')
-            except ValueError:
+            except Exception as e :
                 print("La date de fin du tournoi n'est pas valide.")
                 date_fin = ""
 
@@ -57,12 +57,12 @@ class tournoiView:
                 remarque = str(input("Veuillez saisir la remarque : "))
                 if len(str(remarque)) < 3:
                     print("la remarque du tournoi doit contenir au minimum trois caractères.")
-            except ValueError:
+            except Exception as e :
                 print("la remarque du tournoi n'est pas valide.")
                 lieu = ""
 
 
-        #v = tournoiController.add_tournoi(self,nom,lieu,date_debut,date_fin,remarque)
+
         v = tournoiController.add_tournoi(self,nom,lieu,date_debut,date_fin,remarque)
         print(v)
 
