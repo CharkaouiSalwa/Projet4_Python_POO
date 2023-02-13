@@ -1,5 +1,6 @@
 from models.match import Match
 from controllers.joueurController import joueurController
+from controllers.tournoiController import tournoiController
 import json,os,io
 PATH = "data/tournaments/"
 class matchController:
@@ -47,44 +48,38 @@ class matchController:
                 return "L'Id national est incorrect"
             if len(str(joueur_2)) != 6:
                 return "L'Id national est incorrect"
-            #if len(str(joueur_winner)) != 6:
-               # return "L'Id national est incorrect"
             data = []
-            data_matchs= []
             a = PATH + nom_tournoi + '.json'
             # check if file exist
             if os.path.isfile(a):
                 with open(a, "r") as jsonfile:
                     data = json.load(jsonfile)
-                    for i in data[0]["tours"]:
-                        if i["nom_tour"] == nom_tour:
-                            data_matchs = i["matchs"]
-                if data_matchs == []:
-                    return "Le nom du tour n'existe pas"
-                else:
-                    data_match = []
-                    i=0
-                    for i in data_matchs:
-                       # for b in data_matchs[0]["match"][0]["id_national"]:
-
-                       if (data_matchs[0]["match"][0]["id_national"] == joueur_1) or (data_matchs[0]["match"][0]["id_national"]==joueur_2):
-                                #if joueur_winner == "":
-                                if  joueur_winner == joueur_1:
-                                    i["match"][0]["score"] += 1
-                                if joueur_winner == joueur_2:
-                                    i["match"][1]["score"] += 1
-                                else:
-                                    i["match"][0]["score"] += 0.5
-                                    i["match"][1]["score"] += 0.5
-
-
-                    with open(a,'w') as jsonfile:
-                        json.dump(data_matchs, jsonfile)
-                        return "Le gangant est le joueur", joueur_winner
             else:
                 return "Le nom de tournoi n'existe pas"
 
-
+            data_tours = data[0]["tours"]
+            data_matchs = []
+            data_match = []
+            for data_tour in data_tours:
+                if data_tour["nom_tour"] == nom_tour:
+                    data_matchs = data_tour["matchs"]
+                    for match in data_matchs:
+                        if (match["match"][0]["id_national"] == joueur_1 or match["match"][0]["id_national"] == joueur_2) and (match["match"][1]["id_national"] == joueur_1 or match["match"][1]["id_national"] == joueur_2) :
+                            data_match = match
+                            if (data_match["match"][0]["id_national"] ==  joueur_winner) or (data_match["match"][1]["id_national"] == joueur_winner) or (joueur_winner == ""):
+                                if(data_match["match"][0]["id_national"] == joueur_winner):
+                                    data_match["match"][0]["score"] += 1
+                                elif(data_match["match"][1]["id_national"] == joueur_winner):
+                                    data_match["match"][1]["score"] += 1
+                                else:
+                                    data_match["match"][0]["score"] += 0.5
+                                    data_match["match"][1]["score"] += 0.5
+            if data_match == []:
+                return "Ces joueur n'ont pas joué de match l'un contre l'autre"
+            else:
+                with open(a,'w') as jsonfile:
+                     json.dump(data, jsonfile)
+                return data
         except Exception as e:
             return e
 
