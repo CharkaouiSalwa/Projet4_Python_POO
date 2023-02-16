@@ -1,9 +1,9 @@
-from models.joueur import Joueur
+
 from controllers.joueurController import joueurController
 from controllers.tournoiController import tournoiController
 
 
-class JoueurView():
+class JoueurView:
     def add_joueur(self,nom_tournoi):
 
 
@@ -52,3 +52,26 @@ class JoueurView():
 
         v = joueurController.ajouter_joueur(self,nom_tournoi,id_national, nom, prenom, date_naissance )
         print(v)
+    """
+    afficher tous les joueurs de tous les tournois
+    """
+    def afficher_joueurs(self, dossier):
+        try:
+            dossier = str(input("Veuillez saisir le nom du dossier : "))
+            v = joueurController.get_all_joueurs(self,dossier)
+            print("la liste des joueurs :", v)
+        except Exception as e:
+            return e
+
+    """
+    retourner tous les joueurs d'un tournoi
+    """
+
+    def afficher_joueurs_tournoi(self,nom_tournoi):
+        try:
+            nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
+            v = joueurController.get_joueurs_by_tournoi(self, nom_tournoi)
+            print("la liste des joueurs par tournoi :", v)
+        except Exception as e:
+            return e
+

@@ -33,7 +33,7 @@ class tournoiView:
                 date_debut = str(input("Veuillez saisir la date de debut du tournoi : "))
                 if len(str(date_debut)) != 10 and tournoiController.validate(date_debut) == False:
                     print("La date de debut du tournoi doit avoir le format jj/mm/aaaa.")
-            except Exception as e :
+            except Exception as e:
                 print("La date de debut du tournoi n'est pas valide.")
                 date_debut = ""
 
@@ -60,9 +60,6 @@ class tournoiView:
             except Exception as e :
                 print("la remarque du tournoi n'est pas valide.")
                 lieu = ""
-
-
-
         v = tournoiController.add_tournoi(self,nom,lieu,date_debut,date_fin,remarque)
         print(v)
 
@@ -70,16 +67,24 @@ class tournoiView:
     afficher tous les tournois qui existe dans plusieurs fichier json
     """
 
+    def afficher_tournoi(self, dossier):
+        try:
+            dossier = str(input("Veuillez saisir le nom du dossier : "))
+            v = tournoiController.get_tournois(self, dossier)
+            print("la liste des tournois :", v)
+        except Exception as e:
+            return e
 
-
-
-
-
-
-"""
-afficher le nom et la date d'une tournoi
-"""
-
+    """
+    afficher le nom et la date d'une tournoi
+    """
+    def afficher_nom_date_tournoi(self, nom):
+        try:
+            nom = str(input("Veuillez saisir le nom du tournoi : "))
+            v = tournoiController.get_tournois(self, nom)
+            print("le nom et la date de debut et fin de tournoi sont :", v)
+        except Exception as e:
+          return e
 
 
 

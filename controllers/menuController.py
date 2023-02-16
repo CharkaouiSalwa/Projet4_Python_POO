@@ -1,4 +1,6 @@
 from views.tournoiView import tournoiView
+from views.joueurView import JoueurView
+from views.tourView import tourView
 MSG_MENU_PRINCIPAL = 'Menu Principal'
 MSG_EXIT = 'Merci pour votre visite, à bientot !'
 
@@ -22,9 +24,12 @@ def gestion_tournois(option):
            t= tournoiView()
            return t.ajoutertournoi()
         elif option == 2:
-            return ('Afficher tous les tournois')
+            t = tournoiView()
+            return t.afficher_tournoi()
+            return
         elif option == 3:
-            return ('Afficher nom et date du tournois')
+            t = tournoiView()
+            return t.afficher_nom_date_tournoi()
         elif option == 4:
             return MSG_MENU_PRINCIPAL
         elif option == 5:
@@ -49,11 +54,14 @@ def gestion_tours(option):
             print('Erreur. Entrer un numero ...')
         # Check what choice was entered and act accordingly
         if option == 1:
-            return ('ajouter un tour')
+            t = tourView()
+            return t.ajouter_tour()
         elif option == 2:
-            return ('Fermer un tour ')
+            t = tourView()
+            return t.fermer_tour()
         elif option == 3:
-            return ('Afficher les tours du tournois')
+            t = tourView()
+            return t.afficher_tours_du_tournoi()
         elif option == 4:
             return MSG_MENU_PRINCIPAL
         elif option == 5:
@@ -78,11 +86,14 @@ def gestion_joueurs(option):
             print('Erreur. Entrer un numero ...')
         # Check what choice was entered and act accordingly
         if option == 1:
-            return('ajouter un joueur')
+            t = JoueurView()
+            return t.add_joueur()
         elif option == 2:
-            return ('Afficher tous les joueurs')
+            t = JoueurView()
+            return t.afficher_joueurs()
         elif option == 3:
-            return ('Afficher les joueurs du tournois')
+            t = JoueurView()
+            return t.afficher_joueurs_tournoi()
         elif option == 4:
             return MSG_MENU_PRINCIPAL
         elif option == 5:
