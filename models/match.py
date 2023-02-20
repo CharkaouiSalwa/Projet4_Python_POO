@@ -1,21 +1,15 @@
+import uuid
+
+
 class Match:
     """
     déclaration des attributs d'instance
     """
-    def __init__(self, id_match, joueur_1, joueur_2, score):
+    def __init__(self, id_national_1, score_J1, id_national_2, score_J2):
+        id_match = uuid.uuid4().int & (1 << 10) - 1
         self.id_match = id_match
-        self.joueur_1 = joueur_1
-        self.joueur_2 = joueur_2
-        self.score = score
+        self.id_national_1 = id_national_1
+        self.score_J1 = score_J1
+        self.id_national_2 = id_national_2
+        self.score_J2 = score_J2
 
-    """
-        retourner des tuples contient 
-        les joueurs d'un tour et leurs score
-    """
-    def __str__(self):
-        return "Le match :" + str(self.id_match) + "des joueurs" + str(self.joueur_1) + "Vs" + str(self.joueur_2)\
-               + "leur score est :" + str(self.score)
-
-    def __repr__(self):
-        return "Le match :" + str(self.id_match) + "des joueurs" + str(self.joueur_1) + "Vs"+str(self.joueur_2)
-        + "leur score est :" + str(self.score)

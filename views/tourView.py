@@ -1,7 +1,8 @@
 from controllers.tourController import tourcontroller
+import json
 
 class tourView:
-    def ajouter_tour(self,nom_tournoi, nom_tour):
+    def ajouter_tour(self):
         try:
             nom_tour = str(input("Veuillez saisir le nom du tour : "))
             nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
@@ -14,18 +15,16 @@ class tourView:
     afficher tous les tours d'un tournoi
     """
 
-    def afficher_tours_du_tournoi(self, nom_tournoi):
+    def afficher_tours_du_tournoi(self):
         try:
             nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
             v = tourcontroller.get_tours_by_tournoi(self, nom_tournoi)
+            v = json.dumps(v, indent=4)
             print("la liste des tours par tournoi", v)
         except Exception as e:
             return e
 
-    """
-    Fermer un tour 
-    """
-    def fermer_tour(self, nom_tournoi, nom_tour):
+    def fermer_tour(self):
         try:
             nom_tour = str(input("Veuillez saisir le nom du tour : "))
             nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
