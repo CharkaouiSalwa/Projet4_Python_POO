@@ -12,4 +12,3 @@ class Match:
         self.score_J1 = score_J1
         self.id_national_2 = id_national_2
         self.score_J2 = score_J2
-

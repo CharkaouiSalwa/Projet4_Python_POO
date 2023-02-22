@@ -104,10 +104,10 @@ def gestion_joueurs(option):
 
 
 sous_match = {
-    1: 'Definir un gagnant',
-    2: 'Afficher les matchs d''un tour',
-    3: 'Générer les paires d''un tour',
-    4: 'Retour au menu principal',
+    1: "Definir un gagnant d'un match",
+    2: "Afficher les matchs d'un tour",
+    3: "Générer les paires d'un tour",
+    4: "Retour au menu principal",
     5: 'Quitter'
 }
 
@@ -126,7 +126,7 @@ def gestion_match(option):
             return m.afficher_matchs_by_tour()
         elif option == 3:
             m = matchView()
-            return m.afficher_matchs_by_tour()
+            return m.create_match()
         elif option == 4:
             return MSG_MENU_PRINCIPAL
         elif option == 5:

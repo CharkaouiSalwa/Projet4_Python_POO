@@ -98,7 +98,6 @@ class tournoiController:
         try:
             if len(str(nom)) < 3:
                 return "Le nom du tournoi doit contenir au minimum trois caractères."
-            new_data = []
             a = PATH + nom + '.json'
             with open(a, 'r') as f:
                 data = json.load(f)

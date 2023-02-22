@@ -15,9 +15,6 @@ class matchController():
     """
     Retourner la liste des matchs d'un tour
     """
-     #creer une fonction de recherche tournoi sur le model ou bien creer un fichier manager model qui contient la fonction
-     #deux fonctions une de lecture et l'autre de l'ecriture sur un fichier model tour_manager
-     # passer flake8 pour corriger les erreurs
     def get_matchs_by_tour(self, nom_tournoi, nom_tour):
         try:
             if len(str(nom_tournoi)) < 3:
@@ -95,7 +92,6 @@ class matchController():
     retourner data si le tournoi et le tour existent et le tour ne contient pas de match
     else return None 
     """
-
     def get_data_to_generate(self, nom_tournoi, nom_tour):
         try:
             if len(str(nom_tournoi)) < 3:
@@ -130,8 +126,9 @@ class matchController():
     """
     def creer_matchs(self, nom_tournoi, nom_tour):
         try:
-            data = self.get_data_to_generate(nom_tournoi,nom_tour)
-            if data :
+            data = self.get_data_to_generate(nom_tournoi, nom_tour)
+            if data:
+                a = PATH + nom_tournoi + '.json'
                 if(data[0]["tours"][0]["nom_tour"] == nom_tour):
                     if (data[0]["tours"][0]["date_heure_fin"]):
                         return 'Ce tour est fermé, vous ne pouvez pas créer des matchs.'
@@ -142,36 +139,45 @@ class matchController():
                     random.shuffle(data_id_natioanals)
                     #generer les paires pour tour[0]
                     paires = self.generer_paires_liste(data_id_natioanals)
-                    new_data = []
-                    a = PATH + nom_tournoi + '.json'
                     for paire in paires:
-                        match = Match(paire[0],0,paire[1],0)
+                        match = Match(paire[0], 0, paire[1], 0)
                         new_data = match.__dict__
                         data[0]["tours"][0]["matchs"].append(new_data)
                         with open(a, 'w') as jsonfile:
                             json.dump(data, jsonfile)
-
                     return "Les matchs ont été ajoutés avec succès"
-
-                else :
-                    #todo : boucle pour tour 2,3,4 + verifier nom_tour avec le parametre nom_tour + si date_heure_fin="" => 'Ce tour est fermé, vous ne pouvez pas créer des matchs.'
+                else:
                     #tour 2 tour 3 et tour 4
-                    data_matchs_0 = data[0]["tours"][0]["matchs"]
-                    list_matchs = []
-                    for data_match_0 in data_matchs_0:
-                        list_matchs.append([data_match_0["id_national_1"],data_match_0["score_J1"]])
-                        list_matchs.append([data_match_0["id_national_2"],data_match_0["score_J2"]])
+                    for i in range(1, len(data[0]["tours"])):
+                        if(data[0]["tours"][i]["nom_tour"] == nom_tour):
+                            if(data[0]["tours"][i]["date_heure_fin"]):
+                                return 'Ce tour est fermé, vous ne pouvez pas créer des matchs.'
+                            else:
+                                data_matchs_0 = data[0]["tours"][i-1]["matchs"]
+                                list_matchs = []
+                                for data_match_0 in data_matchs_0:
+                                    list_matchs.append([data_match_0["id_national_1"], data_match_0["score_J1"]])
+                                    list_matchs.append([data_match_0["id_national_2"], data_match_0["score_J2"]])
+                                list_matchs = self.calculer_score(list_matchs)
+                                ma_liste_triee = sorted(list_matchs, key=lambda x: x[1], reverse=True)
+                                data_id_natioanals=[]
+                                data_scores = []
+                                for liste_triee in ma_liste_triee:
+                                    data_id_natioanals.append(liste_triee[0])
+                                    data_scores.append(liste_triee[1])
 
-                    list_matchs = self.calculer_score(list_matchs)
-                    print(list_matchs)
-                    ma_liste_triee = sorted(list_matchs, key=lambda x: x[1], reverse=True)
-                    print(list_matchs)
-                    print(ma_liste_triee)
-
-                    #i = 1
-                    #for i in range(len(data_tours)):
-
-
+                                paires_joueurs = self.generer_paires_liste(data_id_natioanals)
+                                paires_score = self.generer_paires_liste(data_scores)
+                                for p in range(len(paires_joueurs)):
+                                    match = Match(paires_joueurs[p][0], paires_score[p][0], paires_joueurs[p][1], paires_score[p][1])
+                                    new_data = match.__dict__
+                                    data[0]["tours"][i]["matchs"].append(new_data)
+                                    with open(a, 'w') as jsonfile:
+                                        json.dump(data, jsonfile)
+                                return "Les matchs ont été ajoutés avec succès"
+                        else:
+                            msg = "Ce tour n'existe pas"
+                    return msg
             else: #ne pas generer
                 return 'Impossible de générer les paires pour ce tour'
         except Exception as e:
@@ -180,33 +186,23 @@ class matchController():
     """
     Generer les paires
     """
-    def generer_paires_liste(self,data):
-        # Création de toutes les paires possibles
-        toutes_paires = [(data[i], data[j])
-                         for i in range(len(data))
-                         for j in range(i + 1, len(data))]
-        # Liste pour stocker les paires jouées
-        paires_jouees = []
-        # Boucle pour générer les paires de joueurs
-        while len(paires_jouees) < len(toutes_paires):
-            # Choix aléatoire d'une paire
-            paire = random.choice(toutes_paires)
-            # Vérification si la paire a déjà été jouée
-            if paire not in paires_jouees:
-                # Ajout de la paire à la liste des paires jouées
-                paires_jouees.append(paire)
-        return paires_jouees
+    def generer_paires_liste(self, data):
+        # Associer les joueurs en paires dans l'ordre
+        paires = []
+        for i in range(0, len(data), 2):
+            if i + 1 < len(data):
+                paire = (data[i], data[i + 1])
+                paires.append(paire)
+
+        return paires
 
     """
     Score pour liste de [joueur,score]
     """
-    def calculer_score(self,maliste):
+    def calculer_score(self, maliste):
         scores = defaultdict(int)
         for joueur, score in maliste:
             scores[joueur] += score
         resultat = [[joueur, score] for joueur, score in scores.items()]
         return resultat
 
-# Impression de la paire
-#for paire in paires:
-#    print(f"{paire[0]} vs {paire[1]}")

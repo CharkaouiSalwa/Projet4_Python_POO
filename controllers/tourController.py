@@ -63,16 +63,21 @@ class tourcontroller:
             if os.path.isfile(a):
                 with open(a, "r") as jsonfile:
                     data = json.load(jsonfile)
-                for i in data[0]["tours"]:
-                    if i["nom_tour"] == nom_tour:
-                        if i["date_heure_fin"] == "":
+                msg = ""
+                for i in range(0,len(data[0]["tours"])):
+                    if data[0]["tours"][i]["nom_tour"] == nom_tour:
+                        if data[0]["tours"][i]["date_heure_fin"] == "":
                             db = datetime.today()
-                            i["date_heure_fin"] = db.strftime("%d/%m/%Y %H:%M:%S")
+                            data[0]["tours"][i]["date_heure_fin"] = db.strftime("%d/%m/%Y %H:%M:%S")
+                            if(i == 3):#tour 4
+                                #fermer le tournoi
+                                data[0]["date_fin"] = db.strftime("%d/%m/%Y %H:%M:%S")
+                                msg = ", le tournoi est fermé dans ce quatrième et dernier tour"
                         else:
                             return 'Le tour est déjà fermé'
                 with open(a, 'w') as jsonfile:
                     json.dump(data, jsonfile)
-                    return "Le tour a été fermé avec succès"
+                    return "Le tour a été fermé avec succès"+msg
             else:
                 return "Le tournoi n'existe pas"
         except Exception as e:

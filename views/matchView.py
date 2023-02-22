@@ -86,3 +86,30 @@ class matchView:
         gagnant = matchController.match_winner(self, nom_tournoi, nom_tour,id_national1,id_national2,winner)
 
         print(gagnant)
+
+    """
+    Créer un match d'un tour
+    """
+    def create_match(self):
+        nom_tournoi = ""
+        while len(str(nom_tournoi)) < 3:
+            try:
+                nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
+                if len(str(nom_tournoi)) < 3:
+                    print("Le nom du tournoi doit contenir au minimum trois caractères.")
+            except Exception:
+                print("Le nom du tournoi n'est pas valide.")
+                nom_tournoi = ""
+
+        nom_tour = ""
+        while len(str(nom_tour)) < 3:
+            try:
+                nom_tour = str(input("Veuillez saisir le nom du tour : "))
+                if len(str(nom_tour)) < 3:
+                    print("Le nom du tour doit contenir au minimum trois caractères.")
+            except Exception:
+                print("Le nom du tour n'est pas valide.")
+                nom_tour = ""
+
+        m = matchController.creer_matchs(self, nom_tournoi, nom_tour)
+        print(m)
