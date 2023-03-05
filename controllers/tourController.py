@@ -16,7 +16,6 @@ class tourcontroller:
             if len(str(nom_tour)) < 3:
                 return "Le nom doit contenir au minimum trois caractères."
             tours = Tour(nom_tour)
-            data = []
             a = PATH + nom_tournoi + '.json'
             # check if file exist
             if os.path.isfile(a):
@@ -24,7 +23,22 @@ class tourcontroller:
                 with open(a, "r") as jsonfile:
                     data = json.load(jsonfile)
                 new_data = tours.__dict__
-                data[0]["tours"].append(new_data)
+                tour_actuel = data[0]["tour_actuel"]
+                if tour_actuel == 4:
+                    return "Vous ne pouvez avoir plus de 4 tours"
+                if len(data[0]["tours"]) == 0:
+                    data[0]["tours"].append(new_data)
+                    data[0]["tour_actuel"] += 1
+                else:
+                    tours = data[0]["tours"]
+                    for tour in tours:
+                        if tour["nom_tour"] == nom_tour:
+                            return 'Ce nom tour existe déja'
+                    if tours[tour_actuel-1]["date_heure_fin"]:
+                        data[0]["tours"].append(new_data)
+                        data[0]["tour_actuel"] += 1
+                    else:
+                        return "Veuillez fermer le tour précédent avant de rajouter un nouveau tour."
                 with open(a, 'w') as jsonfile:
                     json.dump(data, jsonfile)
                 return "Le tour a été ajouté avec succès"
@@ -64,13 +78,12 @@ class tourcontroller:
                 with open(a, "r") as jsonfile:
                     data = json.load(jsonfile)
                 msg = ""
-                for i in range(0,len(data[0]["tours"])):
+                for i in range(0, len(data[0]["tours"])):
                     if data[0]["tours"][i]["nom_tour"] == nom_tour:
                         if data[0]["tours"][i]["date_heure_fin"] == "":
                             db = datetime.today()
                             data[0]["tours"][i]["date_heure_fin"] = db.strftime("%d/%m/%Y %H:%M:%S")
-                            if(i == 3):#tour 4
-                                #fermer le tournoi
+                            if i == 3:
                                 data[0]["date_fin"] = db.strftime("%d/%m/%Y %H:%M:%S")
                                 msg = ", le tournoi est fermé dans ce quatrième et dernier tour"
                         else:

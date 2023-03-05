@@ -21,7 +21,7 @@ class JoueurView:
             try:
                 id_national = str(input("Veuillez saisir l'id national : "))
                 if len(str(id_national)) != 6:
-                    print("L'id national doit contenir au minimum trois caractères et doit pas dépasser 6 caractères.")
+                    print("L'id national doit contenir 2 lettres et 4 chiffres (ex: AB1234).")
             except Exception:
                 print("L'id national n'est pas valide'.")
                 id_national = ""
@@ -45,7 +45,6 @@ class JoueurView:
             except Exception:
                 print("Le prenom du joueur n'est pas valide.")
                 prenom = ""
-
         # date_naissance input validation
         date_naissance = ""
         while len(str(date_naissance)) != 10:
@@ -56,7 +55,6 @@ class JoueurView:
             except Exception:
                 print("La date de naissance du joueur n'est pas valide.")
                 date_naissance = ""
-
         v = joueurController.add_joueur(self, nom_tournoi, id_national, nom, prenom, date_naissance)
         print(v)
     """

@@ -27,7 +27,7 @@ class matchView:
                 print("Le nom du tour n'est pas valide.")
                 nom_tour = ""
 
-        matchs = matchController.get_matchs_by_tour(self,nom_tournoi,nom_tour)
+        matchs = matchController.get_matchs_by_tour(self, nom_tournoi, nom_tour)
         matchs = json.dumps(matchs, indent=4)
 
         print(matchs)
@@ -59,7 +59,7 @@ class matchView:
         id_national1 = ""
         while len(str(id_national1)) != 6:
             try:
-                id_national1 = str(input("Veuillez saisir l'id national du premier joueur qui a joué dans ce match : "))
+                id_national1 = str(input("Veuillez saisir l'id national du premier joueur qui a joué dans ce match :"))
                 if len(str(id_national1)) != 6:
                     print("L'id national doit contenir au minimum trois caractères et doit pas dépasser 6 caractères.")
             except Exception:
@@ -69,7 +69,8 @@ class matchView:
         id_national2 = ""
         while len(str(id_national2)) != 6:
             try:
-                id_national2 = str(input("Veuillez saisir l'id national du deuxième joueur qui a joué dans ce match : "))
+                id_national2 = str(input("Veuillez saisir l'id national du deuxième "
+                                         "joueur qui a joué dans ce match :"))
                 if len(str(id_national2)) != 6:
                     print("L'id national doit contenir au minimum trois caractères et doit pas dépasser 6 caractères.")
             except Exception:
@@ -78,12 +79,13 @@ class matchView:
 
         try:
             winner = str(
-                input("Veuillez saisir l'id national du joueur qui a gnagné dans ce match (si le match est null, appuyer directement sur entrer): "))
+                input("Veuillez saisir l'id national du joueur qui a gnagné dans ce match "
+                      "(si le match est null, appuyer directement sur entrer): "))
         except Exception:
             print("L'id national n'est pas valide'.")
             winner = ""
 
-        gagnant = matchController.match_winner(self, nom_tournoi, nom_tour,id_national1,id_national2,winner)
+        gagnant = matchController.match_winner(self, nom_tournoi, nom_tour, id_national1, id_national2, winner)
 
         print(gagnant)
 

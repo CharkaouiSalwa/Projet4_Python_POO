@@ -22,7 +22,7 @@ class tournoiController:
     """
     Ajouter un tournoi
     """
-    def add_tournoi(self, nom, lieu, date_debut, date_fin, remarque):
+    def add_tournoi(self, nom, lieu, date_debut, remarque):
         try:
             if len(str(nom)) < 3:
                 return "Le nom du tournoi doit contenir au minimum trois caractères."
@@ -30,13 +30,9 @@ class tournoiController:
                 return "Le lieu du tournoi doit contenir au minimum trois caractères."
             if len(str(date_debut)) != 10 and not tournoiController.validate(date_debut):
                 return "La date de debut du tournoi doit avoir le format jj/mm/aaaa."
-            if len(str(date_fin)) != 10 and not tournoiController.validate(date_fin):
-                return "La date de fin du tournoi doit avoir le format jj/mm/aaaa."
-            elif date_fin < date_debut:
-                return "La date de fin du tournoi doit etre superieur ou égal à la date de debut."
             if len(str(remarque)) < 3:
                 return "la remarque du tournoi doit contenir au minimum trois caractères."
-            Tournois = Tournoi(nom, lieu, date_debut, date_fin, remarque)
+            Tournois = Tournoi(nom, lieu, date_debut, remarque)
             data = []
             F = PATH+"{}.json".format(nom)
             if os.path.isfile(F):
@@ -68,7 +64,7 @@ class tournoiController:
                     path = os.path.join(dossier, fichier)
                     with open(path) as f:
                         data = json.load(f)
-                        listtournoi.append(data)
+                        listtournoi.extend(data)
             return listtournoi
         except Exception as e:
             return e

@@ -35,18 +35,6 @@ class tournoiView:
                 print("La date de debut du tournoi n'est pas valide.")
                 date_debut = ""
 
-        date_fin = ""
-        while len(str(date_fin)) != 10 or not tournoiController.validate(date_fin) or date_fin < date_debut:
-            try:
-                date_fin = str(input("Veuillez saisir la date de fin du tournoi : "))
-                if len(str(date_fin)) != 10 and not tournoiController.validate(date_fin):
-                    print("La date de fin du tournoi doit avoir le format jj/mm/aaaa.")
-                elif date_fin < date_debut:
-                    print('La date de fin du tournoi doit etre superieur ou égal à la date de debut.')
-            except Exception:
-                print("La date de fin du tournoi n'est pas valide.")
-                date_fin = ""
-
         remarque = ""
         while len(str(remarque)) < 3:
             try:
@@ -56,7 +44,7 @@ class tournoiView:
             except Exception:
                 print("la remarque du tournoi n'est pas valide.")
                 lieu = ""
-        v = tournoiController.add_tournoi(self, nom, lieu, date_debut, date_fin, remarque)
+        v = tournoiController.add_tournoi(self, nom, lieu, date_debut, remarque)
         print(v)
 
     """
@@ -65,8 +53,44 @@ class tournoiView:
     def afficher_tournois(self):
         try:
             v = tournoiController.get_tournois(self, PATH)
-            v = json.dumps(v, indent=4)
-            print("la liste des tournois :", v)
+            print("La liste des tournois :\n")
+            for tournoi in v:
+                print("Nom du tournoi : ",tournoi["nom_tournoi"])
+                print("Lieu du tournoi : ",tournoi["lieu"])
+                print("date de début du tournoi : ",tournoi["date_debut"])
+                if tournoi["date_fin"]:
+                    print("date de fin du tournoi : ",tournoi["date_fin"])
+                print("Remarque : ", tournoi["remarque"])
+                print("Nombre de tours : ", tournoi["nbr_tour"])
+                print("Tour Actuel : ", tournoi["tour_actuel"])
+                if tournoi["joueurs"]:
+                    joueurs = tournoi["joueurs"]
+                    print("\n")
+                    print("\tLa liste des joueurs :\n")
+                    for joueur in joueurs:
+                        print("\tID National : ", joueur["id_national"])
+                        print("\tNom : ", joueur["nom"])
+                        print("\tPrénom : ", joueur["prenom"])
+                        print("\tDate de naissance : ", joueur["date_naissance"])
+                        print("\n")
+                if tournoi["tours"]:
+                    tours = tournoi["tours"]
+                    print("\tLa liste des tours :\n")
+                    for tour in tours:
+                        print("\tNom du tour : ", tour["nom_tour"])
+                        print("\tDate heure début du tour : ", tour["date_heure_debut_tour"])
+                        if tour["date_heure_fin_tour"]:
+                            print("\tDate heure fin du tour : ", tour["date_heure_fin_tour"])
+                        if tour["matchs"]:
+                            print("\n")
+                            print("\t\tLa liste des matchs :\n")
+                            matchs = tour["matchs"]
+                            for match in matchs:
+                                print("\t\tJoueur 1 : " + match["id_national_1"] + " son score : " + str(match["score_J1"])
+                                      + " CONTRE " + "Joueur 2 : " + match["id_national_2"] + " son score : " + str(match["score_J2"]))
+                        print("\n")
+                print("-----------------------------------------------\n")
+
         except Exception as e:
             return e
     """

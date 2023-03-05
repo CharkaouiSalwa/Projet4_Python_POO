@@ -17,4 +17,5 @@ class Joueur:
         return self.id_national + " " + self.nom + " " + self.prenom + " né(e) le " + str(self.date_naissance)
 
     def __repr__(self):
-        return self.id_national + " " + self.nom + " " + self.prenom + " né(e) le " + str(self.date_naissance)
+        return "ID National : "+self.id_national + " Nom : " + self.nom + " Prenom : " + self.prenom +\
+               " Né(e) le : " + str(self.date_naissance)

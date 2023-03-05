@@ -2,16 +2,13 @@ from views.tournoiView import tournoiView
 from views.joueurView import JoueurView
 from views.tourView import tourView
 from views.matchView import matchView
-MSG_MENU_PRINCIPAL = 'Menu Principal'
 MSG_EXIT = 'Merci pour votre visite, à bientot !'
 
 
 sous_tournois = {
     1: 'Ajouter un tournoi',
     2: 'Afficher tous les tournois',
-    3: 'Afficher nom et date du tournois',
-    4: 'Retour au menu principal',
-    5: 'Quitter'
+    3: 'Afficher nom et date du tournois'
 }
 
 
@@ -30,20 +27,14 @@ def gestion_tournois(option):
         elif option == 3:
             t = tournoiView()
             return t.afficher_nom_date_tournoi()
-        elif option == 4:
-            return MSG_MENU_PRINCIPAL
-        elif option == 5:
-            return MSG_EXIT
         else:
-            return ('Option invalide. Veuillez entrer un numero entre 1 et 5.')
+            return ('Option invalide. Veuillez entrer un numero entre 1 et 13.')
 
 
 sous_tours = {
-    1: 'Ajouter un tour',
-    2: 'Fermer un tour',
-    3: 'Afficher les tours du tournois',
-    4: 'Retour au menu principal',
-    5: 'Quitter'
+    4: 'Ajouter un tour',
+    5: 'Fermer un tour',
+    6: 'Afficher les tours du tournois'
 }
 
 
@@ -54,29 +45,23 @@ def gestion_tours(option):
         except ValueError:
             print('Erreur. Entrer un numero ...')
         # Check what choice was entered and act accordingly
-        if option == 1:
+        if option == 4:
             t = tourView()
             return t.ajouter_tour()
-        elif option == 2:
+        elif option == 5:
             t = tourView()
             return t.fermer_tour()
-        elif option == 3:
+        elif option == 6:
             t = tourView()
             return t.afficher_tours_du_tournoi()
-        elif option == 4:
-            return MSG_MENU_PRINCIPAL
-        elif option == 5:
-            return MSG_EXIT
         else:
-            print('Option invalide. Veuillez entrer un numero entre 1 et 5.')
+            print('Option invalide. Veuillez entrer un numero entre 1 et 13.')
 
 
 sous_joueurs = {
-    1: 'Ajouter un joueur',
-    2: 'Afficher tous les joueurs',
-    3: 'Afficher les joueurs du tournois',
-    4: 'Retour au menu principal',
-    5: 'Quitter'
+    7: 'Ajouter un joueur',
+    8: 'Afficher tous les joueurs',
+    9: 'Afficher les joueurs du tournois'
 }
 
 
@@ -86,29 +71,23 @@ def gestion_joueurs(option):
             option
         except ValueError:
             print('Erreur. Entrer un numero ...')
-        if option == 1:
+        if option == 7:
             t = JoueurView()
             return t.add_joueur()
-        elif option == 2:
+        elif option == 8:
             t = JoueurView()
             return t.afficher_joueurs()
-        elif option == 3:
+        elif option == 9:
             t = JoueurView()
             return t.afficher_joueurs_tournoi()
-        elif option == 4:
-            return MSG_MENU_PRINCIPAL
-        elif option == 5:
-            return MSG_EXIT
         else:
-            return ('Option invalide. Veuillez entrer un numero entre 1 et 5 .')
+            return ('Option invalide. Veuillez entrer un numero entre 1 et 13.')
 
 
 sous_match = {
-    1: "Definir un gagnant d'un match",
-    2: "Afficher les matchs d'un tour",
-    3: "Générer les paires d'un tour",
-    4: "Retour au menu principal",
-    5: 'Quitter'
+    10: "Mettre à jour le score d'un match",
+    11: "Afficher les matchs d'un tour",
+    12: "Générer les paires d'un tour"
 }
 
 
@@ -118,18 +97,14 @@ def gestion_match(option):
             option
         except ValueError:
             print('Erreur. Entrer un numero ...')
-        if option == 1:
+        if option == 10:
             m = matchView()
             return m.gagnant()
-        elif option == 2:
+        elif option == 11:
             m = matchView()
             return m.afficher_matchs_by_tour()
-        elif option == 3:
+        elif option == 12:
             m = matchView()
             return m.create_match()
-        elif option == 4:
-            return MSG_MENU_PRINCIPAL
-        elif option == 5:
-            return MSG_EXIT
         else:
-            return ('Option invalide. Veuillez entrer un numero entre 1 et 4.')
+            return ('Option invalide. Veuillez entrer un numero entre 1 et 13.')
