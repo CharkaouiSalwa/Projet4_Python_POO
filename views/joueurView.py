@@ -62,9 +62,15 @@ class JoueurView:
     """
     def afficher_joueurs(self):
         try:
-            v = joueurController.get_all_joueurs(self, PATH)
-            v = json.dumps(v, indent=4)
-            print("la liste des joueurs :", v)
+            joueurs = joueurController.get_all_joueurs(self, PATH)
+            print("\tLa liste des joueurs :\n")
+            for joueur in joueurs:
+                print("\tID National : ", joueur["id_national"])
+                print("\tNom : ", joueur["nom"])
+                print("\tPrénom : ", joueur["prenom"])
+                print("\tDate de naissance : ", joueur["date_naissance"])
+                print("\n")
+                print("-----------------------------------------------\n")
         except Exception as e:
             return e
 
@@ -75,8 +81,14 @@ class JoueurView:
     def afficher_joueurs_tournoi(self):
         try:
             nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
-            v = joueurController.get_joueurs_by_tournoi(self, nom_tournoi)
-            v = json.dumps(v, indent=4)
-            print("la liste des joueurs par tournoi :", v)
+            joueurs = joueurController.get_joueurs_by_tournoi(self, nom_tournoi)
+            print("\tLa liste des joueurs :\n")
+            for joueur in joueurs:
+                print("\tID National : ", joueur["id_national"])
+                print("\tNom : ", joueur["nom"])
+                print("\tPrénom : ", joueur["prenom"])
+                print("\tDate de naissance : ", joueur["date_naissance"])
+                print("\n")
+                print("-----------------------------------------------\n")
         except Exception as e:
             return e

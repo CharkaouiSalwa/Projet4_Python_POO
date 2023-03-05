@@ -19,9 +19,23 @@ class tourView:
     def afficher_tours_du_tournoi(self):
         try:
             nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
-            v = tourcontroller.get_tours_by_tournoi(self, nom_tournoi)
-            v = json.dumps(v, indent=4)
-            print("la liste des tours par tournoi", v)
+            tours = tourcontroller.get_tours_by_tournoi(self, nom_tournoi)
+            print("La liste des tours par tournoi: \n")
+            for tour in tours:
+                print("\tNom du tour : ", tour["nom_tour"])
+                print("\tDate heure début du tour : ", tour["date_heure_debut"])
+                if tour["date_heure_fin"]:
+                    print("\tDate heure fin du tour : ", tour["date_heure_fin"])
+                if tour["matchs"]:
+                    print("\n")
+                    print("\t\tLa liste des matchs :\n")
+                    matchs = tour["matchs"]
+                    for match in matchs:
+                        print("\t\tJoueur 1 : " + match["id_national_1"] + " son score : " + str(match["score_J1"])
+                              + " CONTRE " + "Joueur 2 : " + match["id_national_2"] + " son score : " + str(
+                            match["score_J2"]))
+                print("\n")
+
         except Exception as e:
             return e
 

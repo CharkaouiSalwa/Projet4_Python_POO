@@ -78,9 +78,9 @@ class tournoiView:
                     print("\tLa liste des tours :\n")
                     for tour in tours:
                         print("\tNom du tour : ", tour["nom_tour"])
-                        print("\tDate heure début du tour : ", tour["date_heure_debut_tour"])
-                        if tour["date_heure_fin_tour"]:
-                            print("\tDate heure fin du tour : ", tour["date_heure_fin_tour"])
+                        print("\tDate heure début du tour : ", tour["date_heure_debut"])
+                        if tour["date_heure_fin"]:
+                            print("\tDate heure fin du tour : ", tour["date_heure_fin"])
                         if tour["matchs"]:
                             print("\n")
                             print("\t\tLa liste des matchs :\n")

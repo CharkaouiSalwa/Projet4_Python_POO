@@ -26,11 +26,14 @@ class matchView:
             except Exception:
                 print("Le nom du tour n'est pas valide.")
                 nom_tour = ""
-
         matchs = matchController.get_matchs_by_tour(self, nom_tournoi, nom_tour)
-        matchs = json.dumps(matchs, indent=4)
+        print("La liste des matchs d'un tour : \n")
+        for match in matchs:
+            print("\t\tJoueur 1 : " + match["id_national_1"] + " son score : " + str(match["score_J1"])
+                  + " CONTRE " + "Joueur 2 : " + match["id_national_2"] + " son score : " + str(
+                match["score_J2"]))
+    print("\n")
 
-        print(matchs)
 
     """
     Définir le gagnant

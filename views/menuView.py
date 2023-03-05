@@ -3,35 +3,23 @@ from controllers.menuController import gestion_tournois, gestion_tours,\
 from controllers.menuController import MSG_EXIT
 
 
-menu_options = {
-    1: 'Ajouter un tournoi',
-    2: 'Afficher tous les tournois',
-    3: 'Afficher nom et date du tournois',
-    4: 'Ajouter un tour',
-    5: 'Fermer un tour',
-    6: 'Afficher les tours du tournois',
-    7: 'Ajouter un joueur',
-    8: 'Afficher tous les joueurs',
-    9: 'Afficher les joueurs du tournois',
-    10: "Definir un gagnant d'un match",
-    11: "Afficher les matchs d'un tour",
-    12: "Générer les paires d'un tour",
-    13: 'Quitter'
-}
-
-
-def print_menu(menu):
-    for key in menu.keys():
-        print(key, '--', menu[key])
+def print_menu():
+    print("1 -- Ajouter un tournoi \t \t \t \t \t \t \t 2 -- Afficher tous les tournois")
+    print("3 -- Afficher nom et date du tournois \t \t \t \t 4 -- Ajouter un tour")
+    print("5 -- Fermer un tour \t \t \t \t \t \t \t \t 6 -- Afficher les tours du tournois")
+    print("7 -- Ajouter un joueur \t \t \t \t \t \t \t \t 8 -- Afficher tous les joueurs")
+    print("9 -- Afficher les joueurs du tournois \t \t \t \t 10 -- Definir un gagnant d'un match")
+    print("11 -- Afficher les matchs d'un tour \t \t \t \t 12 -- Générer les paires d'un tour")
+    print("13 -- Quitter")
 
 
 def menu_principal():
     option = 0
     while (True):
         if option == 0:
-            print_menu(menu_options)
+            print_menu()
             try:
-                option = int(input('Entrez votre choix: '))
+                option = int(input('\nEntrez votre choix: '))
             except ValueError:
                 print('Erreur. Entrez un numero valide.')
         if option == 1 or option == 2 or option == 3:
