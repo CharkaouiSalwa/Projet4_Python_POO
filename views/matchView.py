@@ -1,5 +1,4 @@
 from controllers.matchController import matchController
-import json
 
 
 class matchView:
@@ -33,7 +32,6 @@ class matchView:
                   + " CONTRE " + "Joueur 2 : " + match["id_national_2"] + " son score : " + str(
                 match["score_J2"]))
     print("\n")
-
 
     """
     Définir le gagnant
@@ -89,7 +87,6 @@ class matchView:
             winner = ""
 
         gagnant = matchController.match_winner(self, nom_tournoi, nom_tour, id_national1, id_national2, winner)
-
         print(gagnant)
 
     """

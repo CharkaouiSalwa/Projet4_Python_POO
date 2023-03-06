@@ -15,4 +15,3 @@ class Tour:
         self.date_heure_debut = date_heure_debut
         self.date_heure_fin = date_heure_fin
         self.matchs = matchs
-

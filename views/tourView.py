@@ -1,5 +1,4 @@
 from controllers.tourController import tourcontroller
-import json
 
 
 class tourView:

@@ -1,6 +1,5 @@
 from controllers.joueurController import joueurController
 from controllers.tournoiController import tournoiController
-import json
 PATH = "data/tournaments/"
 
 

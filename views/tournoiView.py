@@ -1,5 +1,4 @@
 from controllers.tournoiController import tournoiController
-import json
 PATH = "data/tournaments/"
 
 
@@ -55,11 +54,11 @@ class tournoiView:
             v = tournoiController.get_tournois(self, PATH)
             print("La liste des tournois :\n")
             for tournoi in v:
-                print("Nom du tournoi : ",tournoi["nom_tournoi"])
-                print("Lieu du tournoi : ",tournoi["lieu"])
-                print("date de début du tournoi : ",tournoi["date_debut"])
+                print("Nom du tournoi : ", tournoi["nom_tournoi"])
+                print("Lieu du tournoi : ", tournoi["lieu"])
+                print("date de début du tournoi : ", tournoi["date_debut"])
                 if tournoi["date_fin"]:
-                    print("date de fin du tournoi : ",tournoi["date_fin"])
+                    print("date de fin du tournoi : ", tournoi["date_fin"])
                 print("Remarque : ", tournoi["remarque"])
                 print("Nombre de tours : ", tournoi["nbr_tour"])
                 print("Tour Actuel : ", tournoi["tour_actuel"])
@@ -86,8 +85,9 @@ class tournoiView:
                             print("\t\tLa liste des matchs :\n")
                             matchs = tour["matchs"]
                             for match in matchs:
-                                print("\t\tJoueur 1 : " + match["id_national_1"] + " son score : " + str(match["score_J1"])
-                                      + " CONTRE " + "Joueur 2 : " + match["id_national_2"] + " son score : " + str(match["score_J2"]))
+                                print("\t\tJoueur 1 : " + match["id_national_1"] + " son score : "
+                                      + str(match["score_J1"]) + " CONTRE " + "Joueur 2 : "
+                                      + match["id_national_2"] + " son score : " + str(match["score_J2"]))
                         print("\n")
                 print("-----------------------------------------------\n")
 

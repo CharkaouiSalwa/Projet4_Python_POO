@@ -25,7 +25,7 @@ def menu_principal():
         if option == 1 or option == 2 or option == 3:
             gestion_tournois(option)
             if option == 1:
-                while(True):
+                while (True):
                     print("Voulez-vous ajouter des joueurs à ce tournoi ?")
                     option = int(input("Entrez 1 pour oui sinon entrez 2: "))
                     if option == 1:
