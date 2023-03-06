@@ -16,5 +16,3 @@ class Tour:
         self.date_heure_fin = date_heure_fin
         self.matchs = matchs
 
-    def __str__(self):
-        return self.id_tour + " : " + self.nom + " : " + self.date_heure_debut + " : " + self.date_heure_fin

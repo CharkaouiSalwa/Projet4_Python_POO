@@ -15,9 +15,3 @@ class Tournoi:
         self.tour_actuel = tour_actuel
         self.joueurs = joueurs
         self.tours = tours
-
-    def __str__(self):
-        print("Le tournoi N° ", self.id_tournoi, "son nom: ", self.nom_tournoi, "se pass au: ",
-              self.lieu, "le : ", self.date_debut, "et se termine le :", self.date_fin, "ses remarques :",
-              self.remarque, "nombre de tour :",
-              self.nbr_tour, "la tour N :", self.tour_actuel)

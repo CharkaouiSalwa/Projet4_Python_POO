@@ -12,10 +12,3 @@ class Joueur:
         self.nom = nom
         self.prenom = prenom
         self.date_naissance = date_naissance
-
-    def __str__(self):
-        return self.id_national + " " + self.nom + " " + self.prenom + " né(e) le " + str(self.date_naissance)
-
-    def __repr__(self):
-        return "ID National : "+self.id_national + " Nom : " + self.nom + " Prenom : " + self.prenom +\
-               " Né(e) le : " + str(self.date_naissance)
