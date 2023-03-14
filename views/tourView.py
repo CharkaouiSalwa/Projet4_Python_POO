@@ -4,8 +4,8 @@ from controllers.tourController import tourcontroller
 class tourView:
     def ajouter_tour(self):
         try:
-            nom_tour = str(input("Veuillez saisir le nom du tour : "))
             nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
+            nom_tour = str(input("Veuillez saisir le nom du tour : "))
             v = tourcontroller.add_tour(self, nom_tournoi, nom_tour)
             print(v)
         except Exception as e:
