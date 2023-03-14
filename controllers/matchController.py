@@ -118,7 +118,7 @@ class matchController:
     """
     def creer_matchs(self, nom_tournoi, nom_tour):
         try:
-            data = self.get_data_to_generate(nom_tournoi, nom_tour)
+            data = matchController.get_data_to_generate(self,nom_tournoi, nom_tour)
             if data:
                 a = PATH + nom_tournoi + '.json'
                 if data[0]["tours"][0]["nom_tour"] == nom_tour:
@@ -130,7 +130,7 @@ class matchController:
                         data_id_natioanals.append(data_joueur["id_national"])
                     random.shuffle(data_id_natioanals)
                     # generer les paires pour tour[0]
-                    paires = self.generer_paires_liste(data_id_natioanals)
+                    paires = matchController.generer_paires_liste(self,data_id_natioanals)
                     for paire in paires:
                         match = Match(paire[0], 0, paire[1], 0)
                         new_data = match.__dict__
@@ -150,15 +150,15 @@ class matchController:
                                 for data_match_0 in data_matchs_0:
                                     list_matchs.append([data_match_0["id_national_1"], data_match_0["score_J1"]])
                                     list_matchs.append([data_match_0["id_national_2"], data_match_0["score_J2"]])
-                                list_matchs = self.calculer_score(list_matchs)
+                                list_matchs = matchController.calculer_score(self,list_matchs)
                                 ma_liste_triee = sorted(list_matchs, key=lambda x: x[1], reverse=True)
                                 data_id_natioanals = []
                                 data_scores = []
                                 for liste_triee in ma_liste_triee:
                                     data_id_natioanals.append(liste_triee[0])
                                     data_scores.append(liste_triee[1])
-                                paires_joueurs = self.generer_paires_liste(data_id_natioanals)
-                                paires_score = self.generer_paires_liste(data_scores)
+                                paires_joueurs = matchController.generer_paires_liste(self, data_id_natioanals)
+                                paires_score = matchController.generer_paires_liste(self, data_scores)
                                 for p in range(len(paires_joueurs)):
                                     match = Match(paires_joueurs[p][0], paires_score[p][0],
                                                   paires_joueurs[p][1], paires_score[p][1])
