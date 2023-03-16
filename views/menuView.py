@@ -16,37 +16,42 @@ def print_menu():
 def menu_principal():
     option = 0
     while (True):
-        if option == 0:
-            print_menu()
-            try:
-                option = int(input('\nEntrez votre choix: '))
-            except ValueError:
-                print('Erreur. Entrez un numero valide.')
-        if option == 1 or option == 2 or option == 3:
-            gestion_tournois(option)
-            if option == 1:
-                while (True):
-                    print("Voulez-vous ajouter des joueurs à ce tournoi ?")
-                    option = int(input("Entrez 1 pour oui sinon entrez 2: "))
-                    if option == 1:
-                        gestion_joueurs(7)
-                    else:
-                        option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
-                        break
-            else:
-                option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
+        try:
+            if option == 0:
+                print_menu()
+                try:
+                    option = int(input('\nEntrez votre choix: '))
+                except ValueError:
+                    print('Erreur. Entrez un numero valide.')
+            if option == 1 or option == 2 or option == 3:
+                gestion_tournois(option)
+                if option == 1:
+                    while (True):
+                        print("Voulez-vous ajouter des joueurs à ce tournoi ?")
+                        option = int(input("Entrez 1 pour oui sinon entrez 2: "))
+                        if option == 1:
+                            gestion_joueurs(7)
+                        else:
+                            option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
+                            break
+                else:
+                    option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
 
-        elif option == 4 or option == 5 or option == 6:
-            gestion_tours(option)
-            option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
-        elif option == 7 or option == 8 or option == 9:
-            gestion_joueurs(option)
-            option = int(input("Entrez 0 pour afficher le menu entrez 13 pour quitter: "))
-        elif option == 10 or option == 11 or option == 12:
-            gestion_match(option)
-            option = int(input("Entrez 0 pour afficher le menu entrez 13 pour quitter: "))
-        elif option == 13:
-            print(MSG_EXIT)
-            exit()
-        else:
-            print('Option invalide. Veuillez entrer un numero entre 1 et 13.')
+            elif option == 4 or option == 5 or option == 6:
+                gestion_tours(option)
+                option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
+            elif option == 7 or option == 8 or option == 9:
+                gestion_joueurs(option)
+                option = int(input("Entrez 0 pour afficher le menu entrez 13 pour quitter: "))
+            elif option == 10 or option == 11 or option == 12:
+                gestion_match(option)
+                option = int(input("Entrez 0 pour afficher le menu entrez 13 pour quitter: "))
+            elif option == 13:
+                print(MSG_EXIT)
+                exit()
+            else:
+                print('Option invalide. Veuillez entrer un numero entre 1 et 13.')
+                option = 0
+        except ValueError:
+            print('Choix invalide, veuillez entrer un numero entre 1 et 13.')
+            option = 0

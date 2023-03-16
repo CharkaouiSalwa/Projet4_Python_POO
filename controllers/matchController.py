@@ -130,9 +130,8 @@ class matchController:
                         data_id_natioanals.append(data_joueur["id_national"])
                     random.shuffle(data_id_natioanals)
                     # generer les paires pour tour[0]
-                    paires = matchController.generer_paires_liste(self,data_id_natioanals)
-                    for paire in paires:
-                        match = Match(paire[0], 0, paire[1], 0)
+                    for i in range(0, len(data_id_natioanals), 2):
+                        match = Match(data_id_natioanals[i], 0, data_id_natioanals[i+1], 0)
                         new_data = match.__dict__
                         data[0]["tours"][0]["matchs"].append(new_data)
                         with open(a, 'w') as jsonfile:
@@ -151,17 +150,10 @@ class matchController:
                                     list_matchs.append([data_match_0["id_national_1"], data_match_0["score_J1"]])
                                     list_matchs.append([data_match_0["id_national_2"], data_match_0["score_J2"]])
                                 list_matchs = matchController.calculer_score(self,list_matchs)
-                                ma_liste_triee = sorted(list_matchs, key=lambda x: x[1], reverse=True)
-                                data_id_natioanals = []
-                                data_scores = []
-                                for liste_triee in ma_liste_triee:
-                                    data_id_natioanals.append(liste_triee[0])
-                                    data_scores.append(liste_triee[1])
-                                paires_joueurs = matchController.generer_paires_liste(self, data_id_natioanals)
-                                paires_score = matchController.generer_paires_liste(self, data_scores)
-                                for p in range(len(paires_joueurs)):
-                                    match = Match(paires_joueurs[p][0], paires_score[p][0],
-                                                  paires_joueurs[p][1], paires_score[p][1])
+                                random.shuffle(list_matchs)
+                                for p in range(0,len(list_matchs),2):
+                                    match = Match(list_matchs[p][0], list_matchs[p][1],
+                                                  list_matchs[p+1][0], list_matchs[p+1][1])
                                     new_data = match.__dict__
                                     data[0]["tours"][i]["matchs"].append(new_data)
                                     with open(a, 'w') as jsonfile:
@@ -174,23 +166,16 @@ class matchController:
                 return 'Impossible de générer les paires pour ce tour'
         except Exception as e:
             return e
-    """
-    Generer les paires
-    """
-    def generer_paires_liste(self, data):
-        # Associer les joueurs en paires dans l'ordre
-        paires = []
-        for i in range(0, len(data), 2):
-            if i + 1 < len(data):
-                paire = (data[i], data[i + 1])
-                paires.append(paire)
-        return paires
+
     """
     Score pour liste de [joueur,score]
     """
     def calculer_score(self, maliste):
-        scores = defaultdict(int)
-        for joueur, score in maliste:
-            scores[joueur] += score
-        resultat = [[joueur, score] for joueur, score in scores.items()]
-        return resultat
+        try:
+            scores = defaultdict(int)
+            for joueur, score in maliste:
+                scores[joueur] += score
+            resultat = [[joueur, score] for joueur, score in scores.items()]
+            return resultat
+        except Exception:
+            return None
