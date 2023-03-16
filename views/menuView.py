@@ -1,7 +1,7 @@
 from controllers.menuController import gestion_tournois, gestion_tours,\
                                        gestion_joueurs, gestion_match
 from controllers.menuController import MSG_EXIT
-
+import os
 
 def print_menu():
     print("1 -- Ajouter un tournoi \t \t \t \t \t \t \t 2 -- Afficher tous les tournois")
@@ -17,6 +17,12 @@ def menu_principal():
     option = 0
     while (True):
         try:
+            # Vérifier si le dossier "data" existe, sinon le créer
+            if not os.path.exists("data"):
+                os.mkdir("data")
+            # Vérifier si le dossier "tournoi" existe dans "data", sinon le créer
+            if not os.path.exists("data/tournaments"):
+                os.mkdir("data/tournaments")
             if option == 0:
                 print_menu()
                 try:

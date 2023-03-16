@@ -105,10 +105,13 @@ class matchController:
                             # cas des paires sont generées
                             if tour["matchs"]:
                                 data_match = tour["matchs"]
-                if data_tour and not data_match:
-                    return data
+                if data_tour:
+                    if not data_match:
+                        return data
+                    else:
+                        return "Les matchs sont déjà générés pour ce tour"
                 else:
-                    return None
+                    return "Ce tour n'existe pas, impossible de générer des matchs pour ce tour"
             else:
                 return "Le nom de tournoi n'existe pas"
         except Exception as e:
@@ -119,7 +122,7 @@ class matchController:
     def creer_matchs(self, nom_tournoi, nom_tour):
         try:
             data = matchController.get_data_to_generate(self,nom_tournoi, nom_tour)
-            if data:
+            if type(data) == list:
                 a = PATH + nom_tournoi + '.json'
                 if data[0]["tours"][0]["nom_tour"] == nom_tour:
                     if data[0]["tours"][0]["date_heure_fin"]:
@@ -128,7 +131,6 @@ class matchController:
                     data_id_natioanals = []
                     for data_joueur in data_joueurs:
                         data_id_natioanals.append(data_joueur["id_national"])
-                    random.shuffle(data_id_natioanals)
                     # generer les paires pour tour[0]
                     for i in range(0, len(data_id_natioanals), 2):
                         match = Match(data_id_natioanals[i], 0, data_id_natioanals[i+1], 0)
@@ -150,10 +152,11 @@ class matchController:
                                     list_matchs.append([data_match_0["id_national_1"], data_match_0["score_J1"]])
                                     list_matchs.append([data_match_0["id_national_2"], data_match_0["score_J2"]])
                                 list_matchs = matchController.calculer_score(self,list_matchs)
-                                random.shuffle(list_matchs)
-                                for p in range(0,len(list_matchs),2):
-                                    match = Match(list_matchs[p][0], list_matchs[p][1],
-                                                  list_matchs[p+1][0], list_matchs[p+1][1])
+                                ma_liste_triee = sorted(list_matchs, key=lambda x: x[1], reverse=True)
+                                random.shuffle(ma_liste_triee)
+                                for p in range(0,len(ma_liste_triee),2):
+                                    match = Match(ma_liste_triee[p][0], ma_liste_triee[p][1],
+                                                  ma_liste_triee[p+1][0], ma_liste_triee[p+1][1])
                                     new_data = match.__dict__
                                     data[0]["tours"][i]["matchs"].append(new_data)
                                     with open(a, 'w') as jsonfile:
@@ -163,7 +166,7 @@ class matchController:
                             msg = "Ce tour n'existe pas"
                     return msg
             else:
-                return 'Impossible de générer les paires pour ce tour'
+                return data
         except Exception as e:
             return e
 
