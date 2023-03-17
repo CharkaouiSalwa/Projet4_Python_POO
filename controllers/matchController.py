@@ -147,21 +147,24 @@ class matchController:
                                 return 'Ce tour est fermé, vous ne pouvez pas créer des matchs.'
                             else:
                                 data_matchs_0 = data[0]["tours"][i-1]["matchs"]
-                                list_matchs = []
+                                list_matchs_prec = []
                                 for data_match_0 in data_matchs_0:
-                                    list_matchs.append([data_match_0["id_national_1"], data_match_0["score_J1"]])
-                                    list_matchs.append([data_match_0["id_national_2"], data_match_0["score_J2"]])
-                                list_matchs = matchController.calculer_score(self,list_matchs)
-                                ma_liste_triee = sorted(list_matchs, key=lambda x: x[1], reverse=True)
-                                random.shuffle(ma_liste_triee)
-                                for p in range(0,len(ma_liste_triee),2):
-                                    match = Match(ma_liste_triee[p][0], ma_liste_triee[p][1],
-                                                  ma_liste_triee[p+1][0], ma_liste_triee[p+1][1])
-                                    new_data = match.__dict__
-                                    data[0]["tours"][i]["matchs"].append(new_data)
-                                    with open(a, 'w') as jsonfile:
-                                        json.dump(data, jsonfile)
-                                return "Les matchs ont été ajoutés avec succès"
+                                    list_matchs_prec.append([data_match_0["id_national_1"], data_match_0["score_J1"]])
+                                    list_matchs_prec.append([data_match_0["id_national_2"], data_match_0["score_J2"]])
+                                list_matchs_prec = matchController.calculer_score(self,list_matchs_prec)
+                                ma_liste_triee = sorted(list_matchs_prec, key=lambda x: x[1], reverse=True)
+                                final_list_paires = matchController.generation_paires(self,list_matchs_prec,ma_liste_triee)
+                                if type(final_list_paires) == list:
+                                    for p in range(0,len(final_list_paires),2):
+                                        match = Match(final_list_paires[p][0], final_list_paires[p][1],
+                                                      final_list_paires[p+1][0], final_list_paires[p+1][1])
+                                        new_data = match.__dict__
+                                        data[0]["tours"][i]["matchs"].append(new_data)
+                                        with open(a, 'w') as jsonfile:
+                                            json.dump(data, jsonfile)
+                                    return "Les matchs ont été ajoutés avec succès"
+                                else:
+                                    return final_list_paires
                         else:
                             msg = "Ce tour n'existe pas"
                     return msg
@@ -182,3 +185,26 @@ class matchController:
             return resultat
         except Exception:
             return None
+
+    """
+    Generer des paires
+    """
+    def generation_paires(self, list_matchs_prec, ma_liste_triee):
+        try:
+            if list_matchs_prec == []:
+                return ma_liste_triee
+            else:
+                if list_matchs_prec == ma_liste_triee:
+                    new_list = []
+                    n = len(list_matchs_prec)
+                    for i in range(n // 2):
+                        new_list.append(ma_liste_triee[i])
+                        new_list.append(ma_liste_triee[n - i - 1])
+                    if n % 2 != 0:
+                        new_list.append(ma_liste_triee[n // 2])
+                    return new_list
+                else:
+                    # Si les deux listes sont différentes, on retourne la liste triée
+                    return ma_liste_triee
+        except Exception as e:
+            return e
