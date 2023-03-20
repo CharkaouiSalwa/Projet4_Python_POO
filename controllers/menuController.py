@@ -1,7 +1,7 @@
-from views.tournoiView import tournoiView
+from views.tournoiView import TournoiView
 from views.joueurView import JoueurView
-from views.tourView import tourView
-from views.matchView import matchView
+from views.tourView import TourView
+from views.matchView import MatchView
 MSG_EXIT = 'Merci pour votre visite, à bientot !'
 
 
@@ -19,13 +19,13 @@ def gestion_tournois(option):
         except ValueError:
             return ('Erreur. Entrer un numero ...')
         if option == 1:
-            t = tournoiView()
+            t = TournoiView()
             return t.ajoutertournoi()
         elif option == 2:
-            t = tournoiView()
+            t = TournoiView()
             return t.afficher_tournois()
         elif option == 3:
-            t = tournoiView()
+            t = TournoiView()
             return t.afficher_nom_date_tournoi()
         else:
             return ('Option invalide. Veuillez entrer un numero entre 1 et 13.')
@@ -46,13 +46,13 @@ def gestion_tours(option):
             print('Erreur. Entrer un numero ...')
         # Check what choice was entered and act accordingly
         if option == 4:
-            t = tourView()
+            t = TourView()
             return t.ajouter_tour()
         elif option == 5:
-            t = tourView()
+            t = TourView()
             return t.fermer_tour()
         elif option == 6:
-            t = tourView()
+            t = TourView()
             return t.afficher_tours_du_tournoi()
         else:
             print('Option invalide. Veuillez entrer un numero entre 1 et 13.')
@@ -98,13 +98,13 @@ def gestion_match(option):
         except ValueError:
             print('Erreur. Entrer un numero ...')
         if option == 10:
-            m = matchView()
+            m = MatchView()
             return m.gagnant()
         elif option == 11:
-            m = matchView()
+            m = MatchView()
             return m.afficher_matchs_by_tour()
         elif option == 12:
-            m = matchView()
+            m = MatchView()
             return m.create_match()
         else:
             return ('Option invalide. Veuillez entrer un numero entre 1 et 13.')

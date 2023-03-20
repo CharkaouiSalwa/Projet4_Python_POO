@@ -1,5 +1,5 @@
-from controllers.joueurController import joueurController
-from controllers.tournoiController import tournoiController
+from controllers.joueurController import JoueurController
+from controllers.tournoiController import TournoiController
 PATH = "data/tournaments/"
 
 
@@ -50,21 +50,19 @@ class JoueurView:
             while len(str(date_naissance)) != 10:
                 try:
                     date_naissance = str(input("Veuillez saisir la date de naissance du joueur : "))
-                    if len(str(date_naissance)) != 10 and not tournoiController.validate(date_naissance):
+                    if len(str(date_naissance)) != 10 and not TournoiController.validate(date_naissance):
                         print("La date de naissance du joueur doit avoir le format jj/mm/aaaa.")
                 except Exception:
                     print("La date de naissance du joueur n'est pas valide.")
                     date_naissance = ""
-            v = joueurController.add_joueur(self, nom_tournoi, id_national, nom, prenom, date_naissance)
+            v = JoueurController.add_joueur(self, nom_tournoi, id_national, nom, prenom, date_naissance)
             print(v)
         except Exception as e:
             print(e)
-    """
-    afficher tous les joueurs de tous les tournois
-    """
+    """afficher tous les joueurs de tous les tournois"""
     def afficher_joueurs(self):
         try:
-            joueurs = joueurController.get_all_joueurs(self, PATH)
+            joueurs = JoueurController.get_all_joueurs(self, PATH)
             if type(joueurs) == list:
                 print("\tLa liste des joueurs :\n")
                 for joueur in joueurs:
@@ -79,14 +77,12 @@ class JoueurView:
         except Exception as e:
             return e
 
-    """
-    retourner tous les joueurs d'un tournoi
-    """
+    """retourner tous les joueurs d'un tournoi"""
 
     def afficher_joueurs_tournoi(self):
         try:
             nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
-            joueurs = joueurController.get_joueurs_by_tournoi(self, nom_tournoi)
+            joueurs = JoueurController.get_joueurs_by_tournoi(self, nom_tournoi)
             if type(joueurs) == list:
                 print("\tLa liste des joueurs :\n")
                 for joueur in joueurs:

@@ -1,10 +1,8 @@
-from controllers.matchController import matchController
+from controllers.matchController import MatchController
 
 
-class matchView:
-    """
-    Afficher la liste des matchs d'un tour
-    """
+class MatchView:
+    """Afficher la liste des matchs d'un tour"""
     def afficher_matchs_by_tour(self):
         try:
             nom_tournoi = ""
@@ -26,7 +24,7 @@ class matchView:
                 except Exception:
                     print("Le nom du tour n'est pas valide.")
                     nom_tour = ""
-            matchs = matchController.get_matchs_by_tour(self, nom_tournoi, nom_tour)
+            matchs = MatchController.get_matchs_by_tour(self, nom_tournoi, nom_tour)
             if type(matchs) == list:
                 print("La liste des matchs d'un tour : \n")
                 for match in matchs:
@@ -39,9 +37,7 @@ class matchView:
             print(e)
     print("\n")
 
-    """
-    Définir le gagnant
-    """
+    """Définir le gagnant"""
     def gagnant(self):
         try:
             nom_tournoi = ""
@@ -67,9 +63,11 @@ class matchView:
             id_national1 = ""
             while len(str(id_national1)) != 6:
                 try:
-                    id_national1 = str(input("Veuillez saisir l'id national du premier joueur qui a joué dans ce match :"))
+                    id_national1 = str(input("Veuillez saisir l'id national du premier joueur qui "
+                                             "a joué dans ce match :"))
                     if len(str(id_national1)) != 6:
-                        print("L'id national doit contenir au minimum trois caractères et doit pas dépasser 6 caractères.")
+                        print("L'id national doit contenir au minimum trois caractères "
+                              "et doit pas dépasser 6 caractères.")
                 except Exception:
                     print("L'id national n'est pas valide'.")
                     id_national1 = ""
@@ -80,7 +78,8 @@ class matchView:
                     id_national2 = str(input("Veuillez saisir l'id national du deuxième "
                                              "joueur qui a joué dans ce match :"))
                     if len(str(id_national2)) != 6:
-                        print("L'id national doit contenir au minimum trois caractères et doit pas dépasser 6 caractères.")
+                        print("L'id national doit contenir au minimum trois caractères "
+                              "et doit pas dépasser 6 caractères.")
                 except Exception:
                     print("L'id national n'est pas valide'.")
                     id_national2 = ""
@@ -93,13 +92,11 @@ class matchView:
                 print("L'id national n'est pas valide'.")
                 winner = ""
 
-            gagnant = matchController.match_winner(self, nom_tournoi, nom_tour, id_national1, id_national2, winner)
+            gagnant = MatchController.match_winner(self, nom_tournoi, nom_tour, id_national1, id_national2, winner)
             print(gagnant)
         except Exception as e:
             print(e)
-    """
-    Créer un match d'un tour
-    """
+    """Créer un match d'un tour"""
     def create_match(self):
         try:
             nom_tournoi = ""
@@ -122,7 +119,7 @@ class matchView:
                     print("Le nom du tour n'est pas valide.")
                     nom_tour = ""
 
-            m = matchController.creer_matchs(self, nom_tournoi, nom_tour)
+            m = MatchController.creer_matchs(self, nom_tournoi, nom_tour)
             print(m)
         except Exception as e:
             print(e)

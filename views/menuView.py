@@ -3,6 +3,7 @@ from controllers.menuController import gestion_tournois, gestion_tours,\
 from controllers.menuController import MSG_EXIT
 import os
 
+
 def print_menu():
     print("1 -- Ajouter un tournoi \t \t \t \t \t \t \t 2 -- Afficher tous les tournois")
     print("3 -- Afficher nom et date du tournois \t \t \t \t 4 -- Ajouter un tour")

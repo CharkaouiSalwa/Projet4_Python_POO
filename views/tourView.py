@@ -1,24 +1,22 @@
-from controllers.tourController import tourcontroller
+from controllers.tourController import Tourcontroller
 
 
-class tourView:
+class TourView:
     def ajouter_tour(self):
         try:
             nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
             nom_tour = str(input("Veuillez saisir le nom du tour : "))
-            v = tourcontroller.add_tour(self, nom_tournoi, nom_tour)
+            v = Tourcontroller.add_tour(self, nom_tournoi, nom_tour)
             print(v)
         except Exception as e:
             return e
 
-    """
-    afficher tous les tours d'un tournoi
-    """
+    """afficher tous les tours d'un tournoi"""
 
     def afficher_tours_du_tournoi(self):
         try:
             nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
-            tours = tourcontroller.get_tours_by_tournoi(self, nom_tournoi)
+            tours = Tourcontroller.get_tours_by_tournoi(self, nom_tournoi)
             if type(tours) == list:
                 print("La liste des tours par tournoi: \n")
                 for tour in tours:
@@ -45,7 +43,7 @@ class tourView:
         try:
             nom_tour = str(input("Veuillez saisir le nom du tour : "))
             nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
-            v = tourcontroller.close_tour(self, nom_tournoi, nom_tour)
+            v = Tourcontroller.close_tour(self, nom_tournoi, nom_tour)
             print(v)
         except Exception as e:
             return e

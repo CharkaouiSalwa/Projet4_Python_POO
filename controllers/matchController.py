@@ -1,17 +1,14 @@
 import json
 import os
-import random
 from collections import defaultdict
 from models.match import Match
 PATH = "data/tournaments/"
 
 
-class matchController:
+class MatchController:
     def __init__(self):
         self
-    """
-    Retourner la liste des matchs d'un tour
-    """
+    """Retourner la liste des matchs d'un tour"""
     def get_matchs_by_tour(self, nom_tournoi, nom_tour):
         try:
             if len(str(nom_tournoi)) < 3:
@@ -35,9 +32,7 @@ class matchController:
                 return "Le nom de tournoi n'existe pas"
         except Exception as e:
             return e
-    """
-    Définir le gagnant
-    """
+    """Définir le gagnant"""
     def match_winner(self, nom_tournoi, nom_tour, joueur_1, joueur_2, joueur_winner):
         try:
             if len(str(nom_tournoi)) < 3:
@@ -83,27 +78,22 @@ class matchController:
                 return "Le score des joueurs a été mis à jour"
         except Exception as e:
             return e
-    """
-    retourner data si le tournoi et le tour existent et le tour ne contient pas de match
-    """
+    """retourner data si le tournoi et le tour existent et le tour ne contient pas de match"""
     def get_data_to_generate(self, nom_tournoi, nom_tour):
         try:
             if len(str(nom_tournoi)) < 3:
                 return "Le nom du tournoi doit contenir au minimum trois caractères."
             a = PATH + nom_tournoi + '.json'
-            # check if file exist
-            if os.path.isfile(a):
+            if os.path.isfile(a):  # check if file exist
                 with open(a, "r") as jsonfile:
                     data = json.load(jsonfile)
                     tours = data[0]['tours']
                     data_tour = []
                     data_match = []
                     for tour in tours:
-                        # tour exist
-                        if tour["nom_tour"] == nom_tour:
+                        if tour["nom_tour"] == nom_tour:  # tour exist
                             data_tour = tour["nom_tour"]
-                            # cas des paires sont generées
-                            if tour["matchs"]:
+                            if tour["matchs"]:  # cas des paires sont generées
                                 data_match = tour["matchs"]
                 if data_tour:
                     if not data_match:
@@ -116,12 +106,10 @@ class matchController:
                 return "Le nom de tournoi n'existe pas"
         except Exception as e:
             return e
-    """
-    Créer les matchs d'un tour d'un tournoi
-    """
+    """Créer les matchs d'un tour d'un tournoi"""
     def creer_matchs(self, nom_tournoi, nom_tour):
         try:
-            data = matchController.get_data_to_generate(self,nom_tournoi, nom_tour)
+            data = MatchController.get_data_to_generate(self, nom_tournoi, nom_tour)
             if type(data) == list:
                 a = PATH + nom_tournoi + '.json'
                 if data[0]["tours"][0]["nom_tour"] == nom_tour:
@@ -131,8 +119,7 @@ class matchController:
                     data_id_natioanals = []
                     for data_joueur in data_joueurs:
                         data_id_natioanals.append(data_joueur["id_national"])
-                    # generer les paires pour tour[0]
-                    for i in range(0, len(data_id_natioanals), 2):
+                    for i in range(0, len(data_id_natioanals), 2):  # generer les paires pour tour[0]
                         match = Match(data_id_natioanals[i], 0, data_id_natioanals[i+1], 0)
                         new_data = match.__dict__
                         data[0]["tours"][0]["matchs"].append(new_data)
@@ -140,8 +127,7 @@ class matchController:
                             json.dump(data, jsonfile)
                     return "Les matchs ont été ajoutés avec succès"
                 else:
-                    # tour 2 tour 3 et tour 4
-                    for i in range(1, len(data[0]["tours"])):
+                    for i in range(1, len(data[0]["tours"])):  # tour 2 tour 3 et tour 4
                         if data[0]["tours"][i]["nom_tour"] == nom_tour:
                             if data[0]["tours"][i]["date_heure_fin"]:
                                 return 'Ce tour est fermé, vous ne pouvez pas créer des matchs.'
@@ -151,11 +137,12 @@ class matchController:
                                 for data_match_0 in data_matchs_0:
                                     list_matchs_prec.append([data_match_0["id_national_1"], data_match_0["score_J1"]])
                                     list_matchs_prec.append([data_match_0["id_national_2"], data_match_0["score_J2"]])
-                                list_matchs_prec = matchController.calculer_score(self,list_matchs_prec)
+                                list_matchs_prec = MatchController.calculer_score(self, list_matchs_prec)
                                 ma_liste_triee = sorted(list_matchs_prec, key=lambda x: x[1], reverse=True)
-                                final_list_paires = matchController.generation_paires(self,list_matchs_prec,ma_liste_triee)
+                                final_list_paires = MatchController.generation_paires(self, list_matchs_prec,
+                                                                                      ma_liste_triee)
                                 if type(final_list_paires) == list:
-                                    for p in range(0,len(final_list_paires),2):
+                                    for p in range(0, len(final_list_paires), 2):
                                         match = Match(final_list_paires[p][0], final_list_paires[p][1],
                                                       final_list_paires[p+1][0], final_list_paires[p+1][1])
                                         new_data = match.__dict__
@@ -173,9 +160,7 @@ class matchController:
         except Exception as e:
             return e
 
-    """
-    Score pour liste de [joueur,score]
-    """
+    """Score pour liste de [joueur,score]"""
     def calculer_score(self, maliste):
         try:
             scores = defaultdict(int)
@@ -186,9 +171,7 @@ class matchController:
         except Exception:
             return None
 
-    """
-    Generer des paires
-    """
+    """Generer des paires"""
     def generation_paires(self, list_matchs_prec, ma_liste_triee):
         try:
             if list_matchs_prec == []:
@@ -203,8 +186,7 @@ class matchController:
                     if n % 2 != 0:
                         new_list.append(ma_liste_triee[n // 2])
                     return new_list
-                else:
-                    # Si les deux listes sont différentes, on retourne la liste triée
+                else:  # Si les deux listes sont différentes, on retourne la liste triée
                     return ma_liste_triee
         except Exception as e:
             return e

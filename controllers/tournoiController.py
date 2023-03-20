@@ -6,12 +6,10 @@ from datetime import datetime
 PATH = "data/tournaments/"
 
 
-class tournoiController:
+class TournoiController:
     def __init__(self):
         self
-    """
-    Function to validate date with format jj/mm/aaaa
-    """
+    """Function to validate date with format jj/mm/aaaa"""
     def validate(date_text):
         try:
             if date_text != datetime.strptime(date_text, "%d/%m/%Y").strftime("%d/%m/%Y"):
@@ -19,16 +17,14 @@ class tournoiController:
             return True
         except ValueError:
             return False
-    """
-    Ajouter un tournoi
-    """
+    """Ajouter un tournoi"""
     def add_tournoi(self, nom, lieu, date_debut, remarque):
         try:
             if len(str(nom)) < 3:
                 return "Le nom du tournoi doit contenir au minimum trois caractères."
             if len(str(lieu)) < 3:
                 return "Le lieu du tournoi doit contenir au minimum trois caractères."
-            if len(str(date_debut)) != 10 and not tournoiController.validate(date_debut):
+            if len(str(date_debut)) != 10 and not TournoiController.validate(date_debut):
                 return "La date de debut du tournoi doit avoir le format jj/mm/aaaa."
             if len(str(remarque)) < 3:
                 return "la remarque du tournoi doit contenir au minimum trois caractères."
@@ -53,9 +49,7 @@ class tournoiController:
             return "Le tournoi a été ajouté avec succès"
         except Exception as e:
             return e
-    """
-    Retourner tous les tournois
-    """
+    """ Retourner tous les tournois"""
     def get_tournois(self, dossier):
         try:
             listtournoi = []
@@ -68,9 +62,7 @@ class tournoiController:
             return listtournoi
         except Exception as e:
             return e
-    """
-    Retourner le nom et la date du tournoi
-    """
+    """Retourner le nom et la date du tournoi"""
     def get_nom_date_tournoi(self, nom):
         try:
             if len(str(nom)) < 3:
@@ -85,11 +77,7 @@ class tournoiController:
             return new_data
         except Exception as e:
             return e
-
-    """
-    Retourner un tournoi
-    """
-
+    """Retourner un tournoi """
     def get_tournoi(self, nom):
         try:
             if len(str(nom)) < 3:

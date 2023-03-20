@@ -1,8 +1,8 @@
-from controllers.tournoiController import tournoiController
+from controllers.tournoiController import TournoiController
 PATH = "data/tournaments/"
 
 
-class tournoiView:
+class TournoiView:
     def ajoutertournoi(self):
         try:
             nom = ""
@@ -29,7 +29,7 @@ class tournoiView:
             while len(str(date_debut)) != 10:
                 try:
                     date_debut = str(input("Veuillez saisir la date de debut du tournoi : "))
-                    if not len(str(date_debut)) != 10 and not tournoiController.validate(date_debut):
+                    if not len(str(date_debut)) != 10 and not TournoiController.validate(date_debut):
                         print("La date de debut du tournoi doit avoir le format jj/mm/aaaa.")
                         date_debut = ""
                 except Exception:
@@ -45,17 +45,15 @@ class tournoiView:
                 except Exception:
                     print("la remarque du tournoi n'est pas valide.")
                     lieu = ""
-            v = tournoiController.add_tournoi(self, nom, lieu, date_debut, remarque)
+            v = TournoiController.add_tournoi(self, nom, lieu, date_debut, remarque)
             print(v)
         except Exception as e:
             print(e)
 
-    """
-    afficher tous les tournois qui existe dans plusieurs fichier json
-    """
+    """afficher tous les tournois qui existe dans plusieurs fichier json"""
     def afficher_tournois(self):
         try:
-            v = tournoiController.get_tournois(self, PATH)
+            v = TournoiController.get_tournois(self, PATH)
             if type(v) == list:
                 print("La liste des tournois :\n")
                 for tournoi in v:
@@ -100,13 +98,11 @@ class tournoiView:
 
         except Exception as e:
             return e
-    """
-    afficher le nom et la date d'une tournoi
-    """
+    """afficher le nom et la date d'une tournoi"""
     def afficher_nom_date_tournoi(self):
         try:
             nom = str(input("Veuillez saisir le nom du tournoi : "))
-            v = tournoiController.get_nom_date_tournoi(self, nom)
+            v = TournoiController.get_nom_date_tournoi(self, nom)
             if type(v) == list:
                 print("le nom du tournoi : ", v[0])
                 print("la date de debut du tournoi : ", v[1])

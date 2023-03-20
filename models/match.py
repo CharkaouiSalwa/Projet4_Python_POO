@@ -2,9 +2,7 @@ import uuid
 
 
 class Match:
-    """
-    déclaration des attributs d'instance
-    """
+    """ déclaration des attributs d'instance"""
     def __init__(self, id_national_1, score_J1, id_national_2, score_J2):
         id_match = uuid.uuid4().int & (1 << 10) - 1
         self.id_match = id_match
