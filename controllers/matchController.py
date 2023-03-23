@@ -134,24 +134,27 @@ class MatchController:
                             else:
                                 data_matchs_0 = data[0]["tours"][i-1]["matchs"]
                                 list_matchs_prec = []
-                                for data_match_0 in data_matchs_0:
-                                    list_matchs_prec.append([data_match_0["id_national_1"], data_match_0["score_J1"]])
-                                    list_matchs_prec.append([data_match_0["id_national_2"], data_match_0["score_J2"]])
-                                list_matchs_prec = MatchController.calculer_score(self, list_matchs_prec)
-                                ma_liste_triee = sorted(list_matchs_prec, key=lambda x: x[1], reverse=True)
-                                final_list_paires = MatchController.generation_paires(self, list_matchs_prec,
-                                                                                      ma_liste_triee)
-                                if type(final_list_paires) == list:
-                                    for p in range(0, len(final_list_paires), 2):
-                                        match = Match(final_list_paires[p][0], final_list_paires[p][1],
-                                                      final_list_paires[p+1][0], final_list_paires[p+1][1])
-                                        new_data = match.__dict__
-                                        data[0]["tours"][i]["matchs"].append(new_data)
-                                        with open(a, 'w') as jsonfile:
-                                            json.dump(data, jsonfile)
-                                    return "Les matchs ont été ajoutés avec succès"
+                                if data_matchs_0:
+                                    for data_match_0 in data_matchs_0:
+                                        list_matchs_prec.append([data_match_0["id_national_1"], data_match_0["score_J1"]])
+                                        list_matchs_prec.append([data_match_0["id_national_2"], data_match_0["score_J2"]])
+                                    list_matchs_prec = MatchController.calculer_score(self, list_matchs_prec)
+                                    ma_liste_triee = sorted(list_matchs_prec, key=lambda x: x[1], reverse=True)
+                                    final_list_paires = MatchController.generation_paires(self, list_matchs_prec,
+                                                                                          ma_liste_triee)
+                                    if type(final_list_paires) == list:
+                                        for p in range(0, len(final_list_paires), 2):
+                                            match = Match(final_list_paires[p][0], final_list_paires[p][1],
+                                                          final_list_paires[p+1][0], final_list_paires[p+1][1])
+                                            new_data = match.__dict__
+                                            data[0]["tours"][i]["matchs"].append(new_data)
+                                            with open(a, 'w') as jsonfile:
+                                                json.dump(data, jsonfile)
+                                        return "Les matchs ont été ajoutés avec succès"
+                                    else:
+                                        return final_list_paires
                                 else:
-                                    return final_list_paires
+                                    msg = "Erreur, le tour précédent ne contient pas de matchs"
                         else:
                             msg = "Ce tour n'existe pas"
                     return msg
