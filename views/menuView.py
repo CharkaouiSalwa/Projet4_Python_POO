@@ -68,19 +68,22 @@ def menu_principal():
                                                         break
                                                     else:
                                                         option = 0
+                                                        boolAddTour = False
                                                         break
                                             else:
                                                 option = 0
-                                                break
+                                                boolAddTour = False
                                         else:
+                                            boolAddTour = False
                                             option = 0
-                                            break
                                     elif option == 2:
                                         option = 0
                                         boolAddTour = False
+                                        boolAddJoueur = False
                                     else:
                                         option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
                                         boolAddTour = False
+                                        boolAddJoueur = False
                             else:
                                 option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
                                 boolAddJoueur = False
