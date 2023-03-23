@@ -1,19 +1,20 @@
 from controllers.tournoiController import TournoiController
-PATH = "data/tournaments/"
+import views.menuView
 
+PATH = "data/tournaments/"
 
 class TournoiView:
     def ajoutertournoi(self):
         try:
-            nom = ""
-            while len(str(nom)) < 3:
+            views.menuView.nomTournoi = ""
+            while len(str(views.menuView.nomTournoi)) < 3:
                 try:
-                    nom = str(input("Veuillez saisir le nom du tournoi : "))
-                    if len(str(nom)) < 3:
+                    views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
+                    if len(str(views.menuView.nomTournoi)) < 3:
                         print("Le nom du tournoi doit contenir au minimum trois caractères.")
                 except Exception:
                     print("Le nom du tournoi n'est pas valide.")
-                    nom = ""
+                    views.menuView.nomTournoi = ""
 
             lieu = ""
             while len(str(lieu)) < 3:
@@ -45,7 +46,7 @@ class TournoiView:
                 except Exception:
                     print("la remarque du tournoi n'est pas valide.")
                     lieu = ""
-            v = TournoiController.add_tournoi(self, nom, lieu, date_debut, remarque)
+            v = TournoiController.add_tournoi(self, views.menuView.nomTournoi, lieu, date_debut, remarque)
             print(v)
         except Exception as e:
             print(e)
@@ -101,8 +102,9 @@ class TournoiView:
     """afficher le nom et la date d'une tournoi"""
     def afficher_nom_date_tournoi(self):
         try:
-            nom = str(input("Veuillez saisir le nom du tournoi : "))
-            v = TournoiController.get_nom_date_tournoi(self, nom)
+            if not views.menuView.nomTournoi:
+                views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
+            v = TournoiController.get_nom_date_tournoi(self, views.menuView.nomTournoi)
             if type(v) == list:
                 print("le nom du tournoi : ", v[0])
                 print("la date de debut du tournoi : ", v[1])

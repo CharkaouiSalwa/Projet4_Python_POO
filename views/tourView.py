@@ -1,12 +1,15 @@
 from controllers.tourController import Tourcontroller
+import views.menuView
 
 
 class TourView:
     def ajouter_tour(self):
         try:
-            nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
-            nom_tour = str(input("Veuillez saisir le nom du tour : "))
-            v = Tourcontroller.add_tour(self, nom_tournoi, nom_tour)
+            views.menuView.nomTour = ""
+            if not views.menuView.nomTournoi:
+                views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
+            views.menuView.nomTour = str(input("Veuillez saisir le nom du tour : "))
+            v = Tourcontroller.add_tour(self, views.menuView.nomTournoi, views.menuView.nomTour)
             print(v)
         except Exception as e:
             return e
@@ -15,8 +18,9 @@ class TourView:
 
     def afficher_tours_du_tournoi(self):
         try:
-            nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
-            tours = Tourcontroller.get_tours_by_tournoi(self, nom_tournoi)
+            if not views.menuView.nomTournoi:
+                views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
+            tours = Tourcontroller.get_tours_by_tournoi(self, views.menuView.nomTournoi)
             if type(tours) == list:
                 print("La liste des tours par tournoi: \n")
                 for tour in tours:
@@ -41,9 +45,11 @@ class TourView:
 
     def fermer_tour(self):
         try:
-            nom_tour = str(input("Veuillez saisir le nom du tour : "))
-            nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
-            v = Tourcontroller.close_tour(self, nom_tournoi, nom_tour)
+            if not views.menuView.nomTournoi:
+                views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
+            if not views.menuView.nomTour:
+                views.menuView.nomTour = str(input("Veuillez saisir le nom du tour : "))
+            v = Tourcontroller.close_tour(self, views.menuView.nomTournoi, views.menuView.nomTour)
             print(v)
         except Exception as e:
             return e

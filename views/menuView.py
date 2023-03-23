@@ -13,6 +13,8 @@ def print_menu():
     print("11 -- Afficher les matchs d'un tour \t \t \t \t 12 -- Générer les paires d'un tour")
     print("13 -- Quitter")
 
+nomTournoi = ""
+nomTour = ""
 
 def menu_principal():
     option = 0
@@ -31,18 +33,59 @@ def menu_principal():
                 except ValueError:
                     print('Erreur. Entrez un numero valide.')
             if option == 1 or option == 2 or option == 3:
-                gestion_tournois(option)
-                if option == 1:
-                    while (True):
-                        print("Voulez-vous ajouter des joueurs à ce tournoi ?")
-                        option = int(input("Entrez 1 pour oui sinon entrez 2: "))
-                        if option == 1:
-                            gestion_joueurs(7)
-                        else:
-                            option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
-                            break
+                v = gestion_tournois(option)
+                if type(v) == NameError:
+                    print('\nSystem erreur : ', v)
+                    break
                 else:
-                    option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
+                    if option == 1:
+                        boolAddJoueur = True
+                        while (boolAddJoueur):
+                            print("Voulez-vous ajouter des joueurs à ce tournoi ?")
+                            option = int(input("Entrez 1 pour oui sinon entrez 2: "))
+                            if option == 1:
+                                gestion_joueurs(7)
+                            elif option == 2:
+                                boolAddJoueur = False
+                                boolAddTour = True
+                                while(boolAddTour):
+                                    option = int(input("Entrez 1 pour ajouter un tour sinon 2 pour afficher le menu : "))
+                                    if option == 1:
+                                        gestion_tours(4)
+                                        option = int(input("Entrez 1 pour generer les paires sinon 2 pour afficher le menu : "))
+                                        if option == 1:
+                                            gestion_match(12)
+                                            option = int(input("Entrez 1 pour afficher les matchs sinon 2 pour afficher le menu : "))
+                                            if option == 1:
+                                                while(True):
+                                                    gestion_match(11)
+                                                    option = int(input("Entrez 1 pour mettre à jour les scores ou 2"
+                                                                       " pour fermer le tour sinon 3 pour afficher le menu : "))
+                                                    if option == 1:
+                                                        gestion_match(10)
+                                                    elif option == 2:
+                                                        gestion_tours(5)
+                                                        break
+                                                    else:
+                                                        option = 0
+                                                        break
+                                            else:
+                                                option = 0
+                                                break
+                                        else:
+                                            option = 0
+                                            break
+                                    elif option == 2:
+                                        option = 0
+                                        boolAddTour = False
+                                    else:
+                                        option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
+                                        boolAddTour = False
+                            else:
+                                option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
+                                boolAddJoueur = False
+                    else:
+                        option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
 
             elif option == 4 or option == 5 or option == 6:
                 gestion_tours(option)

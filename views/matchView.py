@@ -1,30 +1,28 @@
 from controllers.matchController import MatchController
-
+import views.menuView
 
 class MatchView:
     """Afficher la liste des matchs d'un tour"""
     def afficher_matchs_by_tour(self):
         try:
-            nom_tournoi = ""
-            while len(str(nom_tournoi)) < 3:
+            while len(str(views.menuView.nomTournoi)) < 3:
                 try:
-                    nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
-                    if len(str(nom_tournoi)) < 3:
+                    views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
+                    if len(str(views.menuView.nomTournoi)) < 3:
                         print("Le nom du tournoi doit contenir au minimum trois caractères.")
                 except Exception:
                     print("Le nom du tournoi n'est pas valide.")
-                    nom_tournoi = ""
+                    views.menuView.nomTournoi = ""
 
-            nom_tour = ""
-            while len(str(nom_tour)) < 3:
+            while len(str(views.menuView.nomTour)) < 3:
                 try:
-                    nom_tour = str(input("Veuillez saisir le nom du tour : "))
-                    if len(str(nom_tour)) < 3:
+                    views.menuView.nomTour = str(input("Veuillez saisir le nom du tour : "))
+                    if len(str(views.menuView.nomTour)) < 3:
                         print("Le nom du tour doit contenir au minimum trois caractères.")
                 except Exception:
                     print("Le nom du tour n'est pas valide.")
-                    nom_tour = ""
-            matchs = MatchController.get_matchs_by_tour(self, nom_tournoi, nom_tour)
+                    views.menuView.nomTour = ""
+            matchs = MatchController.get_matchs_by_tour(self, views.menuView.nomTournoi, views.menuView.nomTour)
             if type(matchs) == list:
                 print("La liste des matchs d'un tour : \n")
                 for match in matchs:
@@ -40,25 +38,23 @@ class MatchView:
     """Définir le gagnant"""
     def gagnant(self):
         try:
-            nom_tournoi = ""
-            while len(str(nom_tournoi)) < 3:
+            while len(str(views.menuView.nomTournoi)) < 3:
                 try:
-                    nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
-                    if len(str(nom_tournoi)) < 3:
+                    views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
+                    if len(str(views.menuView.nomTournoi)) < 3:
                         print("Le nom du tournoi doit contenir au minimum trois caractères.")
                 except Exception:
                     print("Le nom du tournoi n'est pas valide.")
-                    nom_tournoi = ""
+                    views.menuView.nomTournoi = ""
 
-            nom_tour = ""
-            while len(str(nom_tour)) < 3:
+            while len(str(views.menuView.nomTour)) < 3:
                 try:
-                    nom_tour = str(input("Veuillez saisir le nom du tour : "))
-                    if len(str(nom_tour)) < 3:
+                    views.menuView.nomTour = str(input("Veuillez saisir le nom du tour : "))
+                    if len(str(views.menuView.nomTour)) < 3:
                         print("Le nom du tour doit contenir au minimum trois caractères.")
                 except Exception:
                     print("Le nom du tour n'est pas valide.")
-                    nom_tour = ""
+                    views.menuView.nomTour = ""
 
             id_national1 = ""
             while len(str(id_national1)) != 6:
@@ -92,34 +88,32 @@ class MatchView:
                 print("L'id national n'est pas valide'.")
                 winner = ""
 
-            gagnant = MatchController.match_winner(self, nom_tournoi, nom_tour, id_national1, id_national2, winner)
+            gagnant = MatchController.match_winner(self, views.menuView.nomTournoi, views.menuView.nomTour, id_national1, id_national2, winner)
             print(gagnant)
         except Exception as e:
             print(e)
     """Créer un match d'un tour"""
     def create_match(self):
         try:
-            nom_tournoi = ""
-            while len(str(nom_tournoi)) < 3:
+            while len(str(views.menuView.nomTournoi)) < 3:
                 try:
-                    nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
-                    if len(str(nom_tournoi)) < 3:
+                    views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
+                    if len(str(views.menuView.nomTournoi)) < 3:
                         print("Le nom du tournoi doit contenir au minimum trois caractères.")
                 except Exception:
                     print("Le nom du tournoi n'est pas valide.")
-                    nom_tournoi = ""
+                    views.menuView.nomTournoi = ""
 
-            nom_tour = ""
-            while len(str(nom_tour)) < 3:
+            while len(str(views.menuView.nomTour)) < 3:
                 try:
-                    nom_tour = str(input("Veuillez saisir le nom du tour : "))
-                    if len(str(nom_tour)) < 3:
+                    views.menuView.nomTour = str(input("Veuillez saisir le nom du tour : "))
+                    if len(str(views.menuView.nomTour)) < 3:
                         print("Le nom du tour doit contenir au minimum trois caractères.")
                 except Exception:
                     print("Le nom du tour n'est pas valide.")
-                    nom_tour = ""
+                    views.menuView.nomTour = ""
 
-            m = MatchController.creer_matchs(self, nom_tournoi, nom_tour)
+            m = MatchController.creer_matchs(self, views.menuView.nomTournoi, views.menuView.nomTour)
             print(m)
         except Exception as e:
             print(e)

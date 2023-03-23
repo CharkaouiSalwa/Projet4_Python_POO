@@ -1,20 +1,20 @@
 from controllers.joueurController import JoueurController
 from controllers.tournoiController import TournoiController
+import views.menuView
 PATH = "data/tournaments/"
 
 
 class JoueurView:
     def add_joueur(self):
         try:
-            nom_tournoi = ""
-            while len(str(nom_tournoi)) < 3:
+            while len(str(views.menuView.nomTournoi)) < 3:
                 try:
-                    nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
-                    if len(str(nom_tournoi)) < 3:
+                    views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
+                    if len(str(views.menuView.nomTournoi)) < 3:
                         print("Le nom du tournoi doit contenir au minimum trois caractères.")
                 except Exception:
                     print("Le nom du tournoi n'est pas valide.")
-                    nom_tournoi = ""
+                    views.menuView.nomTournoi = ""
 
             id_national = ""
             while len(str(id_national)) != 6:
@@ -55,7 +55,7 @@ class JoueurView:
                 except Exception:
                     print("La date de naissance du joueur n'est pas valide.")
                     date_naissance = ""
-            v = JoueurController.add_joueur(self, nom_tournoi, id_national, nom, prenom, date_naissance)
+            v = JoueurController.add_joueur(self, views.menuView.nomTournoi, id_national, nom, prenom, date_naissance)
             print(v)
         except Exception as e:
             print(e)
@@ -81,8 +81,9 @@ class JoueurView:
 
     def afficher_joueurs_tournoi(self):
         try:
-            nom_tournoi = str(input("Veuillez saisir le nom du tournoi : "))
-            joueurs = JoueurController.get_joueurs_by_tournoi(self, nom_tournoi)
+            if not views.menuView.nomTournoi:
+                views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
+            joueurs = JoueurController.get_joueurs_by_tournoi(self, views.menuView.nomTournoi)
             if type(joueurs) == list:
                 print("\tLa liste des joueurs :\n")
                 for joueur in joueurs:
