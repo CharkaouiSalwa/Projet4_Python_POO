@@ -4,7 +4,7 @@ import uuid
 class Tournoi:
     """ Création de la class Joueur avec l'initialisation des attributs"""
     def __init__(self, nom_tournoi, lieu, date_debut, remarque,
-                 nbr_tour=4, tour_actuel=0, joueurs=[], tours=[]):
+                 nbr_tour, tour_actuel=0, joueurs=[], tours=[]):
         id_tournoi = uuid.uuid4().int & (1 << 10) - 1
         self.id_tournoi = id_tournoi
         self.nom_tournoi = nom_tournoi

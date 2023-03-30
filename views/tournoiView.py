@@ -25,12 +25,11 @@ class TournoiView:
                 except Exception:
                     print("Le lieu du tournoi n'est pas valide.")
                     lieu = ""
-
             date_debut = ""
             while len(str(date_debut)) != 10:
                 try:
                     date_debut = str(input("Veuillez saisir la date de debut du tournoi : "))
-                    if not len(str(date_debut)) != 10 and not TournoiController.validate(date_debut):
+                    if len(str(date_debut)) != 10 or not TournoiController.validate(date_debut):
                         print("La date de debut du tournoi doit avoir le format jj/mm/aaaa.")
                         date_debut = ""
                 except Exception:
@@ -45,11 +44,18 @@ class TournoiView:
                         print("la remarque du tournoi doit contenir au minimum trois caractères.")
                 except Exception:
                     print("la remarque du tournoi n'est pas valide.")
-                    lieu = ""
-            v = TournoiController.add_tournoi(self, views.menuView.nomTournoi, lieu, date_debut, remarque)
-            print(v)
+                    remarque = ""
+            nbr_tour = 0
+            while int(nbr_tour) < 1:
+                try:
+                    nbr_tour = int(input("Combien de tour voulez-vous ajouter ?"))
+                except Exception:
+                    print("Le nombre de tour n'est pas valide.")
+                    nbr_tour = 0
+            v = TournoiController.add_tournoi(self, views.menuView.nomTournoi, lieu, date_debut, remarque,nbr_tour)
+            return v
         except Exception as e:
-            print(e)
+            return e
 
     """afficher tous les tournois qui existe dans plusieurs fichier json"""
     def afficher_tournois(self):
@@ -101,15 +107,23 @@ class TournoiView:
             return e
     """afficher le nom et la date d'une tournoi"""
     def afficher_nom_date_tournoi(self):
-        try:
-            if not views.menuView.nomTournoi:
-                views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
-            v = TournoiController.get_nom_date_tournoi(self, views.menuView.nomTournoi)
-            if type(v) == list:
-                print("le nom du tournoi : ", v[0])
-                print("la date de debut du tournoi : ", v[1])
-                print("la date de fin du tournoi : ", v[2])
-            else:
-                print(v)
-        except Exception as e:
-            return e
+        while(True):
+            try:
+                while not views.menuView.nomTournoi:
+                    views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
+                v = TournoiController.get_nom_date_tournoi(self, views.menuView.nomTournoi)
+                if type(v) == list:
+                    print("le nom du tournoi : ", v[0])
+                    print("la date de debut du tournoi : ", v[1])
+                    print("la date de fin du tournoi : ", v[2])
+                    break
+                else:
+                    views.menuView.nomTournoi = ""
+                    word = "No such file or directory"
+                    if word in str(v):
+                        print("Ce tournoi n'existe pas.")
+                    else:
+                        print(v)
+            except Exception as e:
+                views.menuView.nomTournoi = ""
+                print("Erreur : ", e)

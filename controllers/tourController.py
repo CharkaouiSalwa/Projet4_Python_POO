@@ -1,3 +1,4 @@
+import views.menuView
 from models.tour import Tour
 import json
 import os
@@ -20,8 +21,8 @@ class Tourcontroller:
                     data = json.load(jsonfile)
                 new_data = tours.__dict__
                 tour_actuel = data[0]["tour_actuel"]
-                if tour_actuel == 4:
-                    return "Vous ne pouvez avoir plus de 4 tours"
+                # if tour_actuel == 4:
+                #   return "Vous ne pouvez avoir plus de 4 tours"
                 if len(data[0]["tours"]) == 0:
                     data[0]["tours"].append(new_data)
                     data[0]["tour_actuel"] += 1
@@ -29,7 +30,7 @@ class Tourcontroller:
                     tours = data[0]["tours"]
                     for tour in tours:
                         if tour["nom_tour"] == nom_tour:
-                            return 'Ce nom tour existe déja'
+                            return 'Ce nom tour existe déja, veuillez fermer le tour'
                     if tours[tour_actuel-1]["date_heure_fin"]:
                         data[0]["tours"].append(new_data)
                         data[0]["tour_actuel"] += 1
@@ -68,20 +69,51 @@ class Tourcontroller:
                 with open(a, "r") as jsonfile:
                     data = json.load(jsonfile)
                 msg = ""
+                tourFerme = False
+                tourExist = False
                 for i in range(0, len(data[0]["tours"])):
                     if data[0]["tours"][i]["nom_tour"] == nom_tour:
+                        tourExist = True
                         if data[0]["tours"][i]["date_heure_fin"] == "":
                             db = datetime.today()
                             data[0]["tours"][i]["date_heure_fin"] = db.strftime("%d/%m/%Y %H:%M:%S")
-                            if i == 3:
+                            tourFerme = True
+                            if i == data[0]["nbr_tour"]-1:
                                 data[0]["date_fin"] = db.strftime("%d/%m/%Y %H:%M:%S")
-                                msg = ", le tournoi est fermé dans ce quatrième et dernier tour"
-                        else:
-                            return 'Le tour est déjà fermé'
-                with open(a, 'w') as jsonfile:
-                    json.dump(data, jsonfile)
-                    return "Le tour a été fermé avec succès"+msg
+                                msg = ", le tournoi est fermé dans ce dernier tour"
+                if not tourFerme:
+                    return 'Le tour est déjà fermé'
+                elif not tourExist:
+                    return "Ce tour n'existe pas, veuillez ajouter le tour"
+                else:
+                    with open(a, 'w') as jsonfile:
+                        json.dump(data, jsonfile)
+                        return "Le tour a été fermé avec succès"+msg
             else:
                 return "Le tournoi n'existe pas"
+        except Exception as e:
+            return e
+
+    def get_name_current_tour(self, nom_tournoi):
+        try:
+            if len(str(nom_tournoi)) < 3:
+                return "Le nom du tournoi doit contenir au minimum trois caractères."
+            a = PATH + nom_tournoi + '.json'
+            if os.path.isfile(a):  # check if file exist
+                with open(a, "r") as jsonfile:
+                    data = json.load(jsonfile)
+                nom_tour = ""
+                for i in range(0, len(data[0]["tours"])):
+                    if data[0]["tours"][i]["date_heure_fin"] == "":
+                        nom_tour = data[0]["tours"][i]["nom_tour"]
+                    else:
+                        if data[0]["date_fin"] == "":
+                            # generer nouveau round
+                            nom_tour = 'Round ' + str(int(data[0]["tour_actuel"])+1)
+                        else:
+                            nom_tour = ""
+                return nom_tour
+            else:
+                return "Le nom de tournoi n'existe pas"
         except Exception as e:
             return e

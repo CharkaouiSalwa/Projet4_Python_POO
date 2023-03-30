@@ -1,22 +1,33 @@
 from controllers.menuController import gestion_tournois, gestion_tours,\
                                        gestion_joueurs, gestion_match
+from controllers.matchController import MatchController
+from controllers.tournoiController import TournoiController
+from controllers.tourController import Tourcontroller
 from controllers.menuController import MSG_EXIT
 import os
 
 
 def print_menu():
-    print("1 -- Ajouter un tournoi \t \t \t \t \t \t \t 2 -- Afficher tous les tournois")
-    print("3 -- Afficher nom et date du tournois \t \t \t \t 4 -- Ajouter un tour")
-    print("5 -- Fermer un tour \t \t \t \t \t \t \t \t 6 -- Afficher les tours du tournois")
-    print("7 -- Ajouter un joueur \t \t \t \t \t \t \t \t 8 -- Afficher tous les joueurs")
-    print("9 -- Afficher les joueurs du tournois \t \t \t \t 10 -- Definir un gagnant d'un match")
-    print("11 -- Afficher les matchs d'un tour \t \t \t \t 12 -- Générer les paires d'un tour")
-    print("13 -- Quitter")
+
+    print("1 -- Ajouter un nouveau tournoi")
+    print("2 -- Continuer un tournoi")
+    print("3 -- Afficher tous les tournois")
+    print("4 -- Afficher tous les joueurs")
+    print("5 -- Quitter")
+def sous_menu():
+    print("1 -- Afficher nom et date du tournois \t \t \t \t 2 -- Ajouter un tour ")
+    print("3 -- Fermer un tour \t \t \t \t \t \t \t \t 4 -- Afficher les tours du tournois")
+    print("5 -- Afficher les joueurs du tournois \t \t \t \t 6 -- Générer les paires d'un tour ")
+    print("7 -- Afficher les matchs d'un tour \t \t \t \t \t8 -- Mettre à jour le score d'un match  ")
+    print("9 -- Retour au menu principal")
 
 nomTournoi = ""
 nomTour = ""
+joueur1 = ""
+joueur2 = ""
 
 def menu_principal():
+    global nomTournoi
     option = 0
     while (True):
         try:
@@ -32,81 +43,154 @@ def menu_principal():
                     option = int(input('\nEntrez votre choix: '))
                 except ValueError:
                     print('Erreur. Entrez un numero valide.')
-            if option == 1 or option == 2 or option == 3:
+                    option = int(input('\nEntrez votre choix: '))
+            if option == 1:
                 v = gestion_tournois(option)
                 if type(v) == NameError:
                     print('\nSystem erreur : ', v)
-                    break
                 else:
-                    if option == 1:
-                        boolAddJoueur = True
-                        while (boolAddJoueur):
-                            print("Voulez-vous ajouter des joueurs à ce tournoi ?")
-                            option = int(input("Entrez 1 pour oui sinon entrez 2: "))
-                            if option == 1:
-                                gestion_joueurs(7)
-                            elif option == 2:
-                                boolAddJoueur = False
-                                boolAddTour = 0
-                                while(boolAddTour<4):
-                                    option = int(input("Entrez 1 pour ajouter un tour sinon 2 pour afficher le menu : "))
-                                    if option == 1:
-                                        gestion_tours(4)
-                                        boolAddTour += 1
-                                        if boolAddTour <= 4:
-                                            option = int(input("Entrez 1 pour generer les paires sinon 2 pour afficher le menu : "))
-                                            if option == 1:
-                                                gestion_match(12)
-                                                option = int(input("Entrez 1 pour afficher les matchs sinon 2 pour afficher le menu : "))
-                                                if option == 1:
-                                                    while(True):
-                                                        gestion_match(11)
-                                                        option = int(input("Entrez 1 pour mettre à jour les scores ou 2"
-                                                                           " pour fermer le tour sinon 3 pour afficher le menu : "))
-                                                        if option == 1:
-                                                            gestion_match(10)
-                                                        elif option == 2:
-                                                            gestion_tours(5)
-                                                            break
-                                                        else:
-                                                            option = 0
-                                                            break
-                                                else:
-                                                    option = 0
-                                            else:
-                                                option = 0
-                                        else:
-                                            print("Vous ne pouvez avoir plus de 4 tours")
-                                            option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
-                                    elif option == 2:
-                                        option = 0
-                                        boolAddJoueur = False
-                                    else:
-                                        option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
-                                        boolAddJoueur = False
-                                if boolAddTour == 4:
-                                    option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
-                            else:
-                                option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
-                                boolAddJoueur = False
-                    else:
-                        option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
+                    nbr_joueur = 0
+                    while int(nbr_joueur) < 1:
+                        try:
+                            nbr_joueur = int(input("Combien de joueurs voulez-vous ajouter ?"))
+                            if nbr_joueur > 1 and nbr_joueur % 2 == 0:  # nombre pair
+                                for i in range(nbr_joueur):
+                                    gestion_joueurs(7)
+                                break
+                            else:  # nombre impair
+                                print('Veuillez saisir un nombre pair')
+                                nbr_joueur = 0
+                        except Exception:
+                            print("Le nombre n'est pas valide.")
+                            nbr_joueur = 0
+                    t = TournoiController()
+                    tournoi = t.get_tournoi(nomTournoi)
+                    nbr_tour = tournoi[0]["nbr_tour"]
+                    for i in range(nbr_tour):
+                        global nomTour
+                        nomTour = 'Round ' + str(i+1)
+                        gestion_tours(4)  # créer un tour
+                        gestion_match(12)  # créer les matchs
+                        gestion_match(11)  # afficher les matchs
+                        m = MatchController()
+                        matchlist = m.get_matchs_by_tour(nomTournoi, nomTour)
+                        if type(matchlist) == list:
+                            for j in range(len(matchlist)):
+                                print('\n' + nomTour + ' - Match ' + str(j+1) + ':')
+                                global joueur1
+                                joueur1 = matchlist[j]['id_national_1']
+                                global joueur2
+                                joueur2 = matchlist[j]['id_national_2']
+                                gestion_match(10)  # définir un gagnant
+                                gestion_match(11)  # afficher les matchs
 
-            elif option == 4 or option == 5 or option == 6:
-                gestion_tours(option)
-                option = int(input("Entrez 0 pour afficher le menu sinon entrez 13 pour quitter: "))
-            elif option == 7 or option == 8 or option == 9:
-                gestion_joueurs(option)
-                option = int(input("Entrez 0 pour afficher le menu entrez 13 pour quitter: "))
-            elif option == 10 or option == 11 or option == 12:
-                gestion_match(option)
-                option = int(input("Entrez 0 pour afficher le menu entrez 13 pour quitter: "))
-            elif option == 13:
+                        boolChoix = True
+                        while(boolChoix):
+                            try:
+                                option = int(input("Entrez 1 pour fermer le tour sinon 2 pour continuer plus tard : "))
+                                if option == 1:
+                                    gestion_tours(5)  # fermer le tour
+                                    boolChoix = False
+                                elif option == 2:
+                                    option = 0
+                                    boolChoix = False
+                                else:
+                                    print("Choix invalide, veuillez entrer 1 ou 2 :")
+                            except ValueError:
+                                print('Choix invalide, veuillez entrer 1 ou 2.')
+                        if option == 0:
+                            break
+
+            elif option == 2:
+                # get nomTournoi
+                while len(str(nomTournoi)) < 3:
+                    try:
+                        nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
+                        if len(str(nomTournoi)) < 3:
+                            print("Le nom du tournoi doit contenir au minimum trois caractères.")
+                    except Exception:
+                        print("Le nom du tournoi n'est pas valide.")
+                        nomTournoi = ""
+                # get nomTout
+                t = Tourcontroller()
+                nomTour = t.get_name_current_tour(nomTournoi)
+
+                sous_menu()
+
+                print("Tournoi : "+nomTournoi)
+
+                try:
+                    option = int(input('\nEntrez votre choix: '))
+                except ValueError:
+                    print('Erreur. Entrez un numero valide.')
+                    option = int(input('\nEntrez votre choix: '))
+                if option == 1:
+                    gestion_tournois(3)
+                    option = 2
+
+                elif option == 2:
+                    if nomTour:
+                        gestion_tours(4)
+                    else:
+                        print('Ce tournoi est fermé, vous ne pouvez pas rajouter de tour')
+                    option = 2
+                elif option == 3:
+                    if nomTour:
+                        gestion_tours(5)
+                    else:
+                        print('Ce tournoi est fermé, tous les tours sont fermés')
+                    option = 2
+
+                elif option == 4:
+                    gestion_tours(6)
+                    option = 2
+
+                elif option == 5:
+                    gestion_joueurs(9)
+                    option = 2
+                elif option == 6:
+                    if nomTour:
+                        gestion_match(12)
+                    else:
+                        print('Ce tournoi est fermé, vous ne pouvez pas générer des paires')
+                    option = 2
+                elif option == 7:
+                    gestion_match(11)
+                    option = 2
+                elif option == 8:
+                    if nomTour:
+                        m = MatchController()
+                        matchlist = m.get_matchs_by_tour(nomTournoi, nomTour)
+                        if type(matchlist) == list:
+                            for j in range(len(matchlist)):
+                                print('\n' + nomTour + ' - Match ' + str(j + 1) + ':')
+                                joueur1 = matchlist[j]['id_national_1']
+                                joueur2 = matchlist[j]['id_national_2']
+                                gestion_match(10)  # définir un gagnant
+                        else:
+                            print(matchlist)
+                    else:
+                        print("Ce tournoi est fermé, vous ne pouvez pas mettre à jour les scores")
+                    option = 2
+                elif option == 9:
+                    nomTournoi = ""
+                    option = 0
+                else:
+                    print('Choix invalide, veuillez entrer un numero entre 1 et 9.')
+                    option = 2
+
+            elif option == 3:
+                gestion_tournois(2)
+                option = 0
+            elif option == 4:
+                gestion_joueurs(8)
+                option = 0
+            elif option == 5:
                 print(MSG_EXIT)
                 exit()
             else:
-                print('Option invalide. Veuillez entrer un numero entre 1 et 13.')
+                print('Choix invalide. Veuillez entrer un numero entre 1 et 5.')
                 option = 0
         except ValueError:
-            print('Choix invalide, veuillez entrer un numero entre 1 et 13.')
+            print('Choix invalide, veuillez entrer un numero entre 1 et 5.')
             option = 0

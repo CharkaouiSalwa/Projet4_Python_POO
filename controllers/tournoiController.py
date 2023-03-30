@@ -18,24 +18,26 @@ class TournoiController:
         except ValueError:
             return False
     """Ajouter un tournoi"""
-    def add_tournoi(self, nom, lieu, date_debut, remarque):
+    def add_tournoi(self, nom, lieu, date_debut, remarque,nbr_tour):
         try:
             if len(str(nom)) < 3:
                 return "Le nom du tournoi doit contenir au minimum trois caractères."
             if len(str(lieu)) < 3:
                 return "Le lieu du tournoi doit contenir au minimum trois caractères."
-            if len(str(date_debut)) != 10 and not TournoiController.validate(date_debut):
+            if len(str(date_debut)) != 10 or not TournoiController.validate(date_debut):
                 return "La date de debut du tournoi doit avoir le format jj/mm/aaaa."
             if len(str(remarque)) < 3:
                 return "la remarque du tournoi doit contenir au minimum trois caractères."
-            Tournois = Tournoi(nom, lieu, date_debut, remarque)
+            if int(nbr_tour) < 1:
+                return "Le nombre de tour doit être supérieur à 0."
+            Tournois = Tournoi(nom, lieu, date_debut, remarque,nbr_tour)
             data = []
             F = PATH+"{}.json".format(nom)
             if os.path.isfile(F):
                 with open(F, "r+") as jsonfile:
                     try:
                         data = json.load(jsonfile)
-                        if data[0]["nom"] == nom:
+                        if data[0]["nom_tournoi"] == nom:
                             return 'Ce tournoi existe déja'
                     except ValueError:
                         json.dump(data, jsonfile)

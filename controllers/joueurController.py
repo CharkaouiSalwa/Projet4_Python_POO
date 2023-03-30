@@ -19,7 +19,7 @@ class JoueurController:
                 return "Le nom doit contenir au minimum trois caractères."
             if len(str(prenom)) < 3:
                 return "Le prenom doit contenir au minimum trois caractères."
-            if len(str(date_naissance)) != 10 and not TournoiController.validate(date_naissance):
+            if len(str(date_naissance)) != 10 or not TournoiController.validate(date_naissance):
                 return "La date de naissance du joueur doit avoir le format jj/mm/aaaa."
             Joueurs = Joueur(id_national, nom, prenom, date_naissance)
             a = PATH + nom_tournoi + '.json'
@@ -28,6 +28,9 @@ class JoueurController:
                 # read and write in file
                 with open(a, "r") as jsonfile:
                     data = json.load(jsonfile)
+                    for joueur in data[0]['joueurs']:
+                        if joueur["id_national"] == id_national:
+                            return 'Un joueur avec cet id national existe déja'
                 with open(a, 'w') as jsonfile:
                     new_data = Joueurs.__dict__
                     data[0]["joueurs"].append(new_data)
