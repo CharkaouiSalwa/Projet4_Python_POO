@@ -32,7 +32,7 @@ class TourView:
     """afficher tous les tours d'un tournoi"""
 
     def afficher_tours_du_tournoi(self):
-        while(True):
+        while True:
             try:
                 while not views.menuView.nomTournoi:
                     views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
@@ -49,7 +49,8 @@ class TourView:
                             print("\t\tLa liste des matchs :\n")
                             matchs = tour["matchs"]
                             for match in matchs:
-                                print("\t\tJoueur 1 : " + match["id_national_1"] + " son score : " + str(match["score_J1"])
+                                print("\t\tJoueur 1 : " + match["id_national_1"] + " son score : "
+                                      + str(match["score_J1"])
                                       + " CONTRE " + "Joueur 2 : " + match["id_national_2"] + " son score : " + str(
                                     match["score_J2"]))
                         print("\n")
@@ -64,7 +65,6 @@ class TourView:
             except Exception as e:
                 views.menuView.nomTournoi = ""
                 print("Erreur : ", e)
-
 
     def fermer_tour(self):
         try:

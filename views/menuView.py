@@ -1,8 +1,8 @@
 from controllers.menuController import gestion_tournois, gestion_tours,\
-                                       gestion_joueurs, gestion_match
+                                       gestion_joueurs
 from controllers.tourController import Tourcontroller
-from controllers.menuController import MSG_EXIT, joueurs_exist, ajouter_joueurs, get_nbr_tour, new_or_continu_tournoi\
-    ,get_tour_actuel
+from controllers.menuController import MSG_EXIT, joueurs_exist, \
+    ajouter_joueurs, get_nbr_tour, new_or_continu_tournoi, get_tour_actuel
 import os
 
 
@@ -19,6 +19,7 @@ nomTournoi = ""
 nomTour = ""
 joueur1 = ""
 joueur2 = ""
+
 
 def menu_principal():
     # Vérifier si le dossier "data" existe, sinon le créer
@@ -48,7 +49,7 @@ def menu_principal():
                     ajouter_joueurs()
                     nbr_tour = get_nbr_tour(nomTournoi)
                     tour_actuel = 0
-                    new_or_continu_tournoi(nomTournoi,nbr_tour,tour_actuel)
+                    new_or_continu_tournoi(nomTournoi, nbr_tour, tour_actuel)
                 option = 0
             elif option == 2:
                 # get nomTournoi
@@ -64,8 +65,9 @@ def menu_principal():
                 t = Tourcontroller()
                 global nomTour
                 nomTour = t.get_name_current_tour(nomTournoi)
-                if nomTour == "Le nom de tournoi n'existe pas" or nomTour == 'Vous ne pouvez pas continuer un tournoi fermé':
-                    print("Erreur : ",nomTour)
+                if nomTour == "Le nom de tournoi n'existe pas" or\
+                        nomTour == 'Vous ne pouvez pas continuer un tournoi fermé':
+                    print("Erreur : ", nomTour)
                     nomTournoi = ""
                     option = 0
                 else:
@@ -77,7 +79,7 @@ def menu_principal():
                     if nbr_tour == tour_actuel:
                         gestion_tours(5)
                     else:
-                        new_or_continu_tournoi(nomTournoi,nbr_tour,tour_actuel)
+                        new_or_continu_tournoi(nomTournoi, nbr_tour, tour_actuel)
                     option = 0
 
             elif option == 3:

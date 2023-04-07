@@ -1,19 +1,20 @@
 from controllers.matchController import MatchController
 import views.menuView
 
+
 class MatchView:
     """Afficher la liste des matchs d'un tour"""
     def afficher_matchs_by_tour(self):
         try:
             while len(str(views.menuView.nomTournoi)) < 3:
-                    try:
-                        views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
-                        if len(str(views.menuView.nomTournoi)) < 3:
-                            print("Le nom du tournoi doit contenir au minimum trois caractères.")
-                            views.menuView.nomTournoi = ""
-                    except Exception:
-                        print("Le nom du tournoi n'est pas valide.")
+                try:
+                    views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
+                    if len(str(views.menuView.nomTournoi)) < 3:
+                        print("Le nom du tournoi doit contenir au minimum trois caractères.")
                         views.menuView.nomTournoi = ""
+                except Exception:
+                    print("Le nom du tournoi n'est pas valide.")
+                    views.menuView.nomTournoi = ""
 
             while len(str(views.menuView.nomTour)) < 3:
                 try:
@@ -29,7 +30,8 @@ class MatchView:
                 print("La liste des matchs du tour : \n")
                 i = 1
                 for match in matchs:
-                    print("\t\tMatch " + str(i)+" - Joueur 1 : " + match["id_national_1"] + " son score : " + str(match["score_J1"])
+                    print("\t\tMatch " + str(i)+" - Joueur 1 : " + match["id_national_1"] +
+                          " son score : " + str(match["score_J1"])
                           + " CONTRE " + "Joueur 2 : " + match["id_national_2"] + " son score : " + str(
                         match["score_J2"]))
                     i += 1
@@ -69,8 +71,8 @@ class MatchView:
 
             while len(str(views.menuView.joueur1)) != 6:
                 try:
-                    views.menuView.joueur1 = str(input("Veuillez saisir l'id national du premier joueur qui "
-                                             "a joué dans ce match :"))
+                    views.menuView.joueur1 = str(input("Veuillez saisir l'id national du premier joueur "
+                                                       "qui a joué dans ce match :"))
                     if len(str(views.menuView.joueur1)) != 6:
                         print("L'id national doit contenir au minimum trois caractères "
                               "et doit pas dépasser 6 caractères.")
@@ -103,7 +105,8 @@ class MatchView:
                     print("L'id national n'est pas valide'.")
                     winner = ""
 
-            gagnant = MatchController.match_winner(self, views.menuView.nomTournoi, views.menuView.nomTour, views.menuView.joueur1, views.menuView.joueur2, winner)
+            gagnant = MatchController.match_winner(self, views.menuView.nomTournoi, views.menuView.nomTour,
+                                                   views.menuView.joueur1, views.menuView.joueur2, winner)
             print(gagnant)
         except Exception as e:
             print(e)

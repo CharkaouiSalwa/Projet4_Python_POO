@@ -3,6 +3,7 @@ import views.menuView
 
 PATH = "data/tournaments/"
 
+
 class TournoiView:
     def ajoutertournoi(self):
         try:
@@ -52,7 +53,7 @@ class TournoiView:
                 except Exception:
                     print("Le nombre de tour n'est pas valide.")
                     nbr_tour = 0
-            v = TournoiController.add_tournoi(self, views.menuView.nomTournoi, lieu, date_debut, remarque,nbr_tour)
+            v = TournoiController.add_tournoi(self, views.menuView.nomTournoi, lieu, date_debut, remarque, nbr_tour)
             return v
         except Exception as e:
             return e
@@ -107,7 +108,7 @@ class TournoiView:
             return e
     """afficher le nom et la date d'une tournoi"""
     def afficher_nom_date_tournoi(self):
-        while(True):
+        while True:
             try:
                 while not views.menuView.nomTournoi:
                     views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))

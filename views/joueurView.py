@@ -8,7 +8,7 @@ class JoueurView:
     def add_joueur(self):
         try:
             boolok = False
-            while boolok == False:
+            while not boolok:
                 while len(str(views.menuView.nomTournoi)) < 3:
                     try:
                         views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))
@@ -62,7 +62,8 @@ class JoueurView:
                     except Exception:
                         print("La date de naissance du joueur n'est pas valide.")
                         date_naissance = ""
-                v = JoueurController.add_joueur(self, views.menuView.nomTournoi, id_national, nom, prenom, date_naissance)
+                v = JoueurController.add_joueur(self, views.menuView.nomTournoi, id_national,
+                                                nom, prenom, date_naissance)
                 if v == 'Le joueur a été ajouté avec succès':
                     boolok = True
                     print(v)
@@ -87,11 +88,9 @@ class JoueurView:
                 print(joueurs)
         except Exception as e:
             return e
-
-    """retourner tous les joueurs d'un tournoi"""
-
+    """ retourner tous les joueurs d'un tournoi """
     def afficher_joueurs_tournoi(self):
-        while(True):
+        while True:
             try:
                 while not views.menuView.nomTournoi:
                     views.menuView.nomTournoi = str(input("Veuillez saisir le nom du tournoi : "))

@@ -18,7 +18,7 @@ class TournoiController:
         except ValueError:
             return False
     """Ajouter un tournoi"""
-    def add_tournoi(self, nom, lieu, date_debut, remarque,nbr_tour):
+    def add_tournoi(self, nom, lieu, date_debut, remarque, nbr_tour):
         try:
             if len(str(nom)) < 3:
                 return "Le nom du tournoi doit contenir au minimum trois caractères."
@@ -30,7 +30,7 @@ class TournoiController:
                 return "la remarque du tournoi doit contenir au minimum trois caractères."
             if int(nbr_tour) < 1:
                 return "Le nombre de tour doit être supérieur à 0."
-            Tournois = Tournoi(nom, lieu, date_debut, remarque,nbr_tour)
+            Tournois = Tournoi(nom, lieu, date_debut, remarque, nbr_tour)
             data = []
             F = PATH+"{}.json".format(nom)
             if os.path.isfile(F):

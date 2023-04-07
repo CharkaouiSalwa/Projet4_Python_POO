@@ -136,8 +136,10 @@ class MatchController:
                                 list_matchs_prec = []
                                 if data_matchs_0:
                                     for data_match_0 in data_matchs_0:
-                                        list_matchs_prec.append([data_match_0["id_national_1"], data_match_0["score_J1"]])
-                                        list_matchs_prec.append([data_match_0["id_national_2"], data_match_0["score_J2"]])
+                                        list_matchs_prec.append([data_match_0["id_national_1"],
+                                                                 data_match_0["score_J1"]])
+                                        list_matchs_prec.append([data_match_0["id_national_2"],
+                                                                 data_match_0["score_J2"]])
                                     list_matchs_prec = MatchController.calculer_score(self, list_matchs_prec)
                                     ma_liste_triee = sorted(list_matchs_prec, key=lambda x: x[1], reverse=True)
                                     final_list_paires = MatchController.generation_paires(self, list_matchs_prec,

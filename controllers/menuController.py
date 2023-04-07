@@ -33,6 +33,7 @@ def gestion_tournois(option):
         else:
             return ('Option invalide. Veuillez entrer un numero entre 1 et 13.')
 
+
 def joueurs_exist(nom_tournoi):
     t = TournoiController()
     data = t.get_tournoi(nom_tournoi)
@@ -40,6 +41,7 @@ def joueurs_exist(nom_tournoi):
         return True
     else:
         return False
+
 
 def ajouter_joueurs():
     nbr_joueur = 0
@@ -57,17 +59,20 @@ def ajouter_joueurs():
             print("Le nombre n'est pas valide.")
             nbr_joueur = 0
 
+
 def get_nbr_tour(nom_tournoi):
     t = TournoiController()
     tournoi = t.get_tournoi(nom_tournoi)
     return tournoi[0]["nbr_tour"]
+
 
 def get_tour_actuel(nom_tournoi):
     t = TournoiController()
     tournoi = t.get_tournoi(nom_tournoi)
     return tournoi[0]["tour_actuel"]
 
-def check_tour_prec_ferme(nom_tournoi,tour_actuel):
+
+def check_tour_prec_ferme(nom_tournoi, tour_actuel):
     t = TournoiController()
     data = t.get_tournoi(nom_tournoi)
     tours = data[0]["tours"]
@@ -77,11 +82,10 @@ def check_tour_prec_ferme(nom_tournoi,tour_actuel):
         return True
 
 
-
 def new_or_continu_tournoi(nom_tournoi, nbr_tour, tour_actuel):
     for i in range(tour_actuel, nbr_tour):
         if tour_actuel:
-            if not check_tour_prec_ferme(nom_tournoi,tour_actuel):
+            if not check_tour_prec_ferme(nom_tournoi, tour_actuel):
                 views.menuView.nomTour = 'Round ' + str(i)
                 gestion_tours(5)  # fermer le tour
         views.menuView.nomTour = 'Round ' + str(i + 1)
@@ -114,6 +118,7 @@ def new_or_continu_tournoi(nom_tournoi, nbr_tour, tour_actuel):
                 print('Choix invalide, veuillez entrer 1 ou 2.')
         if option == 0:
             break
+
 
 sous_tours = {
     4: 'Ajouter un tour',

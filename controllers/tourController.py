@@ -1,4 +1,3 @@
-import views.menuView
 from models.tour import Tour
 import json
 import os
