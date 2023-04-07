@@ -111,7 +111,7 @@ class Tourcontroller:
                             # generer nouveau round
                             nom_tour = 'Round ' + str(int(data[0]["tour_actuel"])+1)
                         else:
-                            nom_tour = ""
+                            nom_tour = "Vous ne pouvez pas continuer un tournoi fermé"
                 return nom_tour
             else:
                 return "Le nom de tournoi n'existe pas"
