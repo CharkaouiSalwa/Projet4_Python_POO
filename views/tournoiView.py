@@ -58,8 +58,8 @@ class TournoiView:
         except Exception as e:
             return e
 
-    """afficher tous les tournois qui existe dans plusieurs fichier json"""
     def afficher_tournois(self):
+        """afficher tous les tournois qui existe dans plusieurs fichier json"""
         try:
             v = TournoiController.get_tournois(self, PATH)
             if type(v) == list:
@@ -106,8 +106,9 @@ class TournoiView:
 
         except Exception as e:
             return e
-    """afficher le nom et la date d'une tournoi"""
+
     def afficher_nom_date_tournoi(self):
+        """afficher le nom et la date d'une tournoi"""
         while True:
             try:
                 while not views.menuView.nomTournoi:

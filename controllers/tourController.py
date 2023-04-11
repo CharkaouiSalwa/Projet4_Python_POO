@@ -8,8 +8,9 @@ PATH = "data/tournaments/"
 class Tourcontroller:
     def __init__(self):
         self
-    """Ajouter un tour dans une tournois"""
+
     def add_tour(self, nom_tournoi, nom_tour):
+        """Ajouter un tour dans une tournois"""
         try:
             if len(str(nom_tour)) < 3:
                 return "Le nom doit contenir au minimum trois caractères."
@@ -42,8 +43,9 @@ class Tourcontroller:
                 return "Le nom du tournoi n'existe pas"
         except Exception as e:
             return e
-    """retourner tous les tours d'un tournoi"""
+
     def get_tours_by_tournoi(self, nom_tournoi):
+        """retourner tous les tours d'un tournoi"""
         try:
             if len(str(nom_tournoi)) < 3:
                 return "Le nom du tournoi doit contenir au minimum trois caractères."

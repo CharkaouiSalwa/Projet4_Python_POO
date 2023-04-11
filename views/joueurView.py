@@ -71,8 +71,9 @@ class JoueurView:
                     print(v)
         except Exception as e:
             print(e)
-    """afficher tous les joueurs de tous les tournois"""
+
     def afficher_joueurs(self):
+        """afficher tous les joueurs de tous les tournois"""
         try:
             joueurs = JoueurController.get_all_joueurs(self, PATH)
             if type(joueurs) == list:
@@ -88,8 +89,9 @@ class JoueurView:
                 print(joueurs)
         except Exception as e:
             return e
-    """ retourner tous les joueurs d'un tournoi """
+
     def afficher_joueurs_tournoi(self):
+        """ retourner tous les joueurs d'un tournoi """
         while True:
             try:
                 while not views.menuView.nomTournoi:

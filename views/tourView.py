@@ -29,9 +29,8 @@ class TourView:
             views.menuView.nomTournoi = ""
             print("Erreur : ", e)
 
-    """afficher tous les tours d'un tournoi"""
-
     def afficher_tours_du_tournoi(self):
+        """afficher tous les tours d'un tournoi"""
         while True:
             try:
                 while not views.menuView.nomTournoi:

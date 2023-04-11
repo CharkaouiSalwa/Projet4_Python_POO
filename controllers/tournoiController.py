@@ -9,16 +9,18 @@ PATH = "data/tournaments/"
 class TournoiController:
     def __init__(self):
         self
-    """Function to validate date with format jj/mm/aaaa"""
+
     def validate(date_text):
+        """Function to validate date with format jj/mm/aaaa"""
         try:
             if date_text != datetime.strptime(date_text, "%d/%m/%Y").strftime("%d/%m/%Y"):
                 raise ValueError
             return True
         except ValueError:
             return False
-    """Ajouter un tournoi"""
+
     def add_tournoi(self, nom, lieu, date_debut, remarque, nbr_tour):
+        """Ajouter un tournoi"""
         try:
             if len(str(nom)) < 3:
                 return "Le nom du tournoi doit contenir au minimum trois caractères."
@@ -30,7 +32,7 @@ class TournoiController:
                 return "la remarque du tournoi doit contenir au minimum trois caractères."
             if int(nbr_tour) < 1:
                 return "Le nombre de tour doit être supérieur à 0."
-            Tournois = Tournoi(nom, lieu, date_debut, remarque, nbr_tour)
+            tournois = Tournoi(nom, lieu, date_debut, remarque, nbr_tour)
             data = []
             F = PATH+"{}.json".format(nom)
             if os.path.isfile(F):
@@ -44,15 +46,16 @@ class TournoiController:
             else:
                 with io.open(os.path.join(F), 'w') as jsonfile:
                     jsonfile.write(json.dumps(data, indent=4))
-            new_data = Tournois.__dict__
+            new_data = tournois.__dict__
             data.append(new_data)
             with open(F, "w") as jsonfile:
                 json.dump(data, jsonfile)
             return "Le tournoi a été ajouté avec succès"
         except Exception as e:
             return e
-    """ Retourner tous les tournois"""
+
     def get_tournois(self, dossier):
+        """ Retourner tous les tournois"""
         try:
             listtournoi = []
             for fichier in os.listdir(dossier):
@@ -64,8 +67,9 @@ class TournoiController:
             return listtournoi
         except Exception as e:
             return e
-    """Retourner le nom et la date du tournoi"""
+
     def get_nom_date_tournoi(self, nom):
+        """Retourner le nom et la date du tournoi"""
         try:
             if len(str(nom)) < 3:
                 return "Le nom du tournoi doit contenir au minimum trois caractères."
@@ -79,8 +83,9 @@ class TournoiController:
             return new_data
         except Exception as e:
             return e
-    """Retourner un tournoi """
+
     def get_tournoi(self, nom):
+        """Retourner un tournoi """
         try:
             if len(str(nom)) < 3:
                 return "Le nom du tournoi doit contenir au minimum trois caractères."

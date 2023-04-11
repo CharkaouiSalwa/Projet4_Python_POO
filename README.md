@@ -54,7 +54,7 @@ desactivate
 ```
  - Exécution : 
 ``` shell
- flake8 --format=html --htmldir=flake8_rapport --max-line-length=119
+ flake8  --exclude env --format=html --htmldir=flake8_rapport --max-line-length=119
 
 ```
 ***
@@ -64,7 +64,7 @@ Fichier json contient les données nécéssaire pour un tournoi d'échec avec le
 ***
 
 <br/><br/><br/>
-*Par Salwa CHARKAOUI*
+*Par Salwa CHARKAOUI* 
 
 
 

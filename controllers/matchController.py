@@ -8,8 +8,9 @@ PATH = "data/tournaments/"
 class MatchController:
     def __init__(self):
         self
-    """Retourner la liste des matchs d'un tour"""
+
     def get_matchs_by_tour(self, nom_tournoi, nom_tour):
+        """Retourner la liste des matchs d'un tour"""
         try:
             if len(str(nom_tournoi)) < 3:
                 return "Le nom du tournoi doit contenir au minimum trois caractères."
@@ -32,8 +33,9 @@ class MatchController:
                 return "Le nom de tournoi n'existe pas"
         except Exception as e:
             return e
-    """Définir le gagnant"""
+
     def match_winner(self, nom_tournoi, nom_tour, joueur_1, joueur_2, joueur_winner):
+        """Définir le gagnant"""
         try:
             if len(str(nom_tournoi)) < 3:
                 return "Le nom du tournoi doit contenir au minimum trois caractères."
@@ -78,8 +80,9 @@ class MatchController:
                 return "Le score des joueurs a été mis à jour"
         except Exception as e:
             return e
-    """retourner data si le tournoi et le tour existent et le tour ne contient pas de match"""
+
     def get_data_to_generate(self, nom_tournoi, nom_tour):
+        """retourner data si le tournoi et le tour existent et le tour ne contient pas de match"""
         try:
             if len(str(nom_tournoi)) < 3:
                 return "Le nom du tournoi doit contenir au minimum trois caractères."
@@ -106,8 +109,9 @@ class MatchController:
                 return "Le nom de tournoi n'existe pas"
         except Exception as e:
             return e
-    """Créer les matchs d'un tour d'un tournoi"""
+
     def creer_matchs(self, nom_tournoi, nom_tour):
+        """Créer les matchs d'un tour d'un tournoi"""
         try:
             data = MatchController.get_data_to_generate(self, nom_tournoi, nom_tour)
             if type(data) == list:
@@ -165,8 +169,8 @@ class MatchController:
         except Exception as e:
             return e
 
-    """Score pour liste de [joueur,score]"""
     def calculer_score(self, maliste):
+        """Score pour liste de [joueur,score]"""
         try:
             scores = defaultdict(int)
             for joueur, score in maliste:
@@ -176,8 +180,8 @@ class MatchController:
         except Exception:
             return None
 
-    """Generer des paires"""
     def generation_paires(self, list_matchs_prec, ma_liste_triee):
+        """Generer des paires"""
         try:
             if list_matchs_prec == []:
                 return ma_liste_triee

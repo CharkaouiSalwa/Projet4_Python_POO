@@ -10,8 +10,8 @@ class JoueurController:
     def __init__(self):
         self
 
-    """Ajouter un joueur"""
     def add_joueur(self, nom_tournoi, id_national, nom, prenom, date_naissance):
+        """Ajouter un joueur"""
         try:
             if len(str(id_national)) != 6:
                 return "L'Id national est incorrect"
@@ -21,7 +21,7 @@ class JoueurController:
                 return "Le prenom doit contenir au minimum trois caractères."
             if len(str(date_naissance)) != 10 or not TournoiController.validate(date_naissance):
                 return "La date de naissance du joueur doit avoir le format jj/mm/aaaa."
-            Joueurs = Joueur(id_national, nom, prenom, date_naissance)
+            joueurs = Joueur(id_national, nom, prenom, date_naissance)
             a = PATH + nom_tournoi + '.json'
             # check if file exist
             if os.path.isfile(a):
@@ -32,7 +32,7 @@ class JoueurController:
                         if joueur["id_national"] == id_national:
                             return 'Un joueur avec cet id national existe déja'
                 with open(a, 'w') as jsonfile:
-                    new_data = Joueurs.__dict__
+                    new_data = joueurs.__dict__
                     data[0]["joueurs"].append(new_data)
                     json.dump(data, jsonfile)
                 return "Le joueur a été ajouté avec succès"
@@ -40,8 +40,9 @@ class JoueurController:
                 return "Le nom de tournoi n'existe pas"
         except Exception as e:
             return e
-    """retourner tous les joueurs d'un tournoi"""
+
     def get_joueurs_by_tournoi(self, nom_tournoi):
+        """retourner tous les joueurs d'un tournoi"""
         try:
             if len(str(nom_tournoi)) < 3:
                 return "Le nom du tournoi doit contenir au minimum trois caractères."
@@ -55,8 +56,9 @@ class JoueurController:
                 return "Le nom de tournoi n'existe pas"
         except Exception as e:
             return e
-    """retourner tous les joueurs de tous les tournois"""
+
     def get_all_joueurs(self, dossier):
+        """retourner tous les joueurs de tous les tournois"""
         try:
             listtournoi = []
             for fichier in os.listdir(dossier):

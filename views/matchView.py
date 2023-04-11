@@ -3,8 +3,8 @@ import views.menuView
 
 
 class MatchView:
-    """Afficher la liste des matchs d'un tour"""
     def afficher_matchs_by_tour(self):
+        """Afficher la liste des matchs d'un tour"""
         try:
             while len(str(views.menuView.nomTournoi)) < 3:
                 try:
@@ -48,8 +48,8 @@ class MatchView:
             print("Erreur : ", e)
         print("\n")
 
-    """Définir le gagnant"""
     def gagnant(self):
+        """Définir le gagnant"""
         try:
             while len(str(views.menuView.nomTournoi)) < 3:
                 try:
@@ -110,8 +110,9 @@ class MatchView:
             print(gagnant)
         except Exception as e:
             print(e)
-    """Créer un match d'un tour"""
+
     def create_match(self):
+        """Créer un match d'un tour"""
         try:
             while len(str(views.menuView.nomTournoi)) < 3:
                 try:
